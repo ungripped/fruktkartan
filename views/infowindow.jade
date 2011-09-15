@@ -1,0 +1,27 @@
+div#info_window(class='info_window')
+	form
+		h3 Lägg till ett träd
+		div
+			label Sort:
+				select#info_type(name='info_type')
+					option(value='')
+					option(value='äpple') Äpple
+					option(value='päron') Päron
+					option(value='plommon') Plommon
+					option(value='körsbär') Körsbär
+					option(value='annat') annat
+			input#info_extra(name='info_extra')
+		div
+			textarea#info_desc(name='info_desc')
+		div
+			button#info_save(type='submit') Spara
+			a#cancel_link(href="#", class="block_link") Avbryt
+			span#indicator
+				img(src='/images/ajax-loader.gif')
+				span Sparar fruktträd...
+				
+	div(class='info_view')
+		h3: a
+		p
+			
+		
