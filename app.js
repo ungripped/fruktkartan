@@ -6,7 +6,7 @@
 var express = require('express');
 var app = module.exports = express.createServer();
 
-var httpclient = require('httpclient');
+var httpclient = require('./httpclient');
 var ejs = require('ejs');
 var fs = require('fs');
 
