@@ -38,7 +38,8 @@ app.get('/', function(req, res){
 });
 
 app.get('/pos', function(req, res) {
-	var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=[[Fruktträd::%2B]]&po=Artikel|Bild|Ikontyp|Beskrivning|Koordinater&format=json";
+	//var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=[[Fruktträd::%2B]]&po=Artikel|Bild|Ikontyp|Beskrivning|Koordinater&format=json";
+	var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=%5B%5BFrukttr%C3%A4d%3A%2B%5D%5D&po=Artikel|Bild|Ikontyp|Beskrivning|Koordinater&format=json";
 	var client = new httpclient.httpclient();	
 
 	client.perform(url, "GET", function(result) {
@@ -52,10 +53,12 @@ app.post('/pos/add', function(req, res) {
 	
 	var file = fs.readFileSync(__dirname + '/views/article.ejs', 'utf8');
 	var rendered = ejs.render(file, {locals: pos});
+	var posStr = pos.info_pos.lat + "," + pos.info_pos.lng;
 	
 	var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
-	var editData = encodeURI("action=edit&title=Säsongsmat:Fruktträd/Lista&summary=Från fruktkartan.se&section=new&text="+rendered)+"&token=%2B%5C";
-
+	var editData = encodeURI("action=edit&title=Fruktträd:"+ posStr +"&summary=Från fruktkartan.se&section=new&text="+rendered)+"&token=%2B%5C";
+	//var editData = encodeURI("action=edit&title=Säsongsmat:Fruktträd/Lista&summary=Från fruktkartan.se&section=new&text="+rendered)+"&token=%2B%5C";
+	console.log(editData);
 	var client = new httpclient.httpclient();
 	
 	client.perform(editUrl, "POST", function(result) {

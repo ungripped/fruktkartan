@@ -39,7 +39,7 @@ function init_map() {
 	var browserSupportFlag =  new Boolean();
 
 	var myOptions = {
-		zoom: 13,
+		zoom: 12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
@@ -238,15 +238,17 @@ $(document).ready(function() {
 
 	$.getJSON('/pos', function(data) {
 		$.each(data, function(index, tree) {
-			var convertedPos = ParseDMS(tree.properties.koordinater);
-			var p = new google.maps.LatLng(convertedPos.lat, convertedPos.lng);
-			var markerImage = markerImages[tree.properties.ikontyp];
+			if (tree.properties &&  tree.properties['koordinater']) {
+				var convertedPos = ParseDMS(tree.properties.koordinater);
+				var p = new google.maps.LatLng(convertedPos.lat, convertedPos.lng);
+				var markerImage = markerImages[tree.properties.ikontyp];
 			
-			var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
+				var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
 			
-			google.maps.event.addListener(marker, 'click', function(e) {
-				$("#info_window").infoWindow('showData', {marker: marker, data: tree});
-			});
+				google.maps.event.addListener(marker, 'click', function(e) {
+					$("#info_window").infoWindow('showData', {marker: marker, data: tree});
+				});
+			}
 		});
 	});
 });
