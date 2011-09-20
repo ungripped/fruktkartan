@@ -187,9 +187,9 @@ function set_position(map) {
 			settings.iw.setPosition(marker.getPosition());
 			
 			
-			if (settings.map.getZoom() < 14) {
+			if (settings.map.getZoom() < 15) {
 				settings.map.setCenter(marker.getPosition());
-				settings.map.setZoom(14);
+				settings.map.setZoom(15);
 			}
 			
 			if (currentMarker) {
@@ -220,6 +220,14 @@ function set_position(map) {
 
 $(document).ready(function() {
 	
+	var treePath = document.location.pathname.split('/');
+	if(treePath.length >= 3) {
+		treePath = treePath[2];
+	}
+	else {
+		treePath = undefined;
+	}
+		
 	// TODO: refactor this, don't make them global.
 	anchorPoint = new google.maps.Point(15, 30);
 	size = new google.maps.Size(30, 34);
@@ -239,7 +247,7 @@ $(document).ready(function() {
 	
 	var map = init_map();
 	
-	setTimeout(function() {set_position(map);}, 10);
+	setTimeout(function() {set_position(map);}, 0);
 	
 	$("#info_window").infoWindow({iw: infoWindow, map: map, markerImages: markerImages});
 	
@@ -252,6 +260,12 @@ $(document).ready(function() {
 				var markerImage = markerImages[tree.properties.ikontyp];
 			
 				var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
+				if (treePath) {
+					var title = tree.title.substring(10);
+					if(title == decodeURI(treePath)) {
+						$("#info_window").infoWindow('showData', {marker: marker, data: tree});
+					}
+				}
 			
 				google.maps.event.addListener(marker, 'click', function(e) {
 					$("#info_window").infoWindow('showData', {marker: marker, data: tree});
