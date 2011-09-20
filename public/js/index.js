@@ -186,6 +186,12 @@ function set_position(map) {
 			settings.iw.open(settings.map, marker);
 			settings.iw.setPosition(marker.getPosition());
 			
+			
+			if (settings.map.getZoom() < 14) {
+				settings.map.setCenter(marker.getPosition());
+				settings.map.setZoom(14);
+			}
+			
 			if (currentMarker) {
 				currentMarker.setMap(null);
 				currentMarker = undefined;
@@ -218,6 +224,8 @@ $(document).ready(function() {
 	anchorPoint = new google.maps.Point(15, 30);
 	size = new google.maps.Size(30, 34);
 	origin = new google.maps.Point(0, 0);
+	
+	markerImages = {};
 
 	markerImages = {
 		"Grönt träd": new google.maps.MarkerImage('/images/Tradikon_gron.png', size, origin, anchorPoint),
