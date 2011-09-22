@@ -56,6 +56,9 @@ ul.social {
 #fruktkarta {
   height: 600px; }
 
+#fruktkarta.map_state_adding div {
+  cursor: crosshair !important; }
+
 .footer {
   background: #696153;
   color: #eeeeee; }
@@ -91,3 +94,19 @@ ul.social {
     color: #ffa600; }
   .info_window .info_control {
     text-align: right; }
+
+#AddTreeControl {
+  background: url(../images/Tradikon_gron.png) white top center no-repeat;
+  margin-top: 15px;
+  padding: 33px 5px 2px 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #777;
+  cursor: pointer; }
+
+#AddTreeControl.selected {
+  border: 1px solid #6ab9fb;
+  -moz-box-shadow: 0 0 5px 5px #6ab9fb;
+  -webkit-box-shadow: 0 0 5px 5px #6ab9fb;
+  box-shadow: 0 0 5px 5px #6ab9fb; }

@@ -32,6 +32,27 @@ function ConvertDMSToDD(days, minutes, seconds, direction) {
     return dd;
 }
 
+MapStateAdding = false;
+function ToggleMapState() {
+	MapStateAdding = !MapStateAdding;
+	$('#AddTreeControl').toggleClass('selected');
+	$("#fruktkarta > div").toggleClass('map_state_adding');
+	$("#fruktkarta").toggleClass("map_state_adding");
+}
+
+function AddTreeControl(div) {
+	div = $(div).attr({id: 'AddTreeControl'});
+	this.element = div[0];
+	
+	var button = $('<div>Lägg till träd</div>').appendTo(div);
+
+	var control = this;
+
+	div.click(function() {
+		ToggleMapState();
+	});
+}
+
 
 function init_map() {
 	var initialLocation;
@@ -46,7 +67,10 @@ function init_map() {
 	var map = new google.maps.Map(document.getElementById('fruktkarta'), myOptions);
 	
 	map.setCenter(stockholm);
-	
+
+	var addTreeControl = new AddTreeControl($('<div/>'));
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(addTreeControl.element);
+
 	return map;
 }
 
@@ -129,6 +153,8 @@ function set_position(map) {
 			*/
 			
 			google.maps.event.addListener(settings.map, 'click', function(event) {
+				if (!MapStateAdding) return;
+				
 				if (currentMarker) {
 					currentMarker.setMap(null);
 				}
@@ -140,6 +166,7 @@ function set_position(map) {
 				
 				currentMarker = marker;
 				$($this).infoWindow('openWindow', {marker: marker, val: ''});
+				ToggleMapState();
 			});
 			google.maps.event.addListener(settings.iw, 'closeclick', function(event) {
 				clearMarker();
