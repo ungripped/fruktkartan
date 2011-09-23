@@ -37,10 +37,16 @@ app.get('/', function(req, res){
 	});
 });
 
+app.get('/tree/:name', function(req, res) {
+	res.render('index', {
+		title: 'fruktkartan.se'
+	});
+});
+
 app.get('/tr%C3%A4d/:name', function(req, res) {
 	res.render('index', {
 		title: 'fruktkartan.se'
-	})
+	});
 });
 
 app.get('/pos', function(req, res) {
