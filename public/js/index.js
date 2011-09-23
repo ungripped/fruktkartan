@@ -288,7 +288,7 @@ $(document).ready(function() {
 			
 				var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
 				if (treePath) {
-					var title = tree.title.substring(10);
+					var title = tree.title.mTextform;
 					if(title == decodeURI(treePath)) {
 						$("#info_window").infoWindow('showData', {marker: marker, data: tree});
 					}
