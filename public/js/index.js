@@ -16,11 +16,11 @@ $.fn.serializeObject = function()
 };
 
 function ParseDMS(input) {
-    var parts = input.split(/[^\d\w]+/);
+    /*var parts = input.split(/[^\d\w]+/);
     var lat = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
     var lng = ConvertDMSToDD(parts[4], parts[5], parts[6], parts[7]);	
-
-	return {lat: lat, lng: lng};
+		*/
+	return {lat: input.lat, lng: input.lon};
 }
 
 function ConvertDMSToDD(days, minutes, seconds, direction) {
@@ -207,7 +207,7 @@ function set_position(map) {
 			$(this).infoWindow('showForm', obj.val);
 		},
 		showData: function(obj) {
-			var d = obj.data.properties;
+			var d = obj.data;
 			var marker = obj.marker;
 			
 			settings.iw.open(settings.map, marker);
@@ -230,8 +230,8 @@ function set_position(map) {
 			w.children('form').hide();
 			
 			var div = w.children('div').show();
-			div.find('h3 > a').text(d.artikel).attr('href', 'http://xn--ssongsmat-v2a.nu/ssm/'+d.artikel)
-			div.children('p').text(d.beskrivning);
+			div.find('h3 > a').text(d.Artikel).attr('href', d.url);
+			div.children('p').text(d.Beskrivning);
 		}
 	};
 	
@@ -280,12 +280,36 @@ $(document).ready(function() {
 	
 
 	$.getJSON('/pos', function(data) {
+		console.log(data);
 		$.each(data, function(index, tree) {
+			if (!tree) return;
+			if (!tree.Koordinater) return;
+
+			var convertedPos = ParseDMS(tree.Koordinater);
+			var p = new google.maps.LatLng(convertedPos.lat, convertedPos.lng);
+			var markerImage = markerImages[tree.Ikontyp];
+			var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
+
+
 			if (tree.properties &&  tree.properties['koordinater']) {
 				var convertedPos = ParseDMS(tree.properties.koordinater);
 				var p = new google.maps.LatLng(convertedPos.lat, convertedPos.lng);
 				var markerImage = markerImages[tree.properties.ikontyp];
 			
+			/*
+				if (treePath) {
+					var title = tree.title.mTextform;
+					if(title == decodeURI(treePath)) {
+						$("#info_window").infoWindow('showData', {marker: marker, data: tree});
+					}
+				}
+				*/
+
+				google.maps.event.addListener(marker, 'click', function(e) {
+					$("#info_window").infoWindow('showData', {marker: marker, data: tree});
+				});
+
+/*
 				var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
 				if (treePath) {
 					var title = tree.title.mTextform;
@@ -297,6 +321,7 @@ $(document).ready(function() {
 				google.maps.event.addListener(marker, 'click', function(e) {
 					$("#info_window").infoWindow('showData', {marker: marker, data: tree});
 				});
+*/
 			}
 		});
 	});
