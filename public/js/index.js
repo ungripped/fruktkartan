@@ -16,6 +16,7 @@ $.fn.serializeObject = function()
 };
 
 function ParseDMS(input) {
+	console.log("lat: " + input.lat + ", lon: " + input.lon);
     /*var parts = input.split(/[^\d\w]+/);
     var lat = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
     var lng = ConvertDMSToDD(parts[4], parts[5], parts[6], parts[7]);	
@@ -290,12 +291,6 @@ $(document).ready(function() {
 			var markerImage = markerImages[tree.Ikontyp];
 			var marker = new google.maps.Marker({position: p, map: map, icon: markerImage});
 
-
-			if (tree.properties &&  tree.properties['koordinater']) {
-				var convertedPos = ParseDMS(tree.properties.koordinater);
-				var p = new google.maps.LatLng(convertedPos.lat, convertedPos.lng);
-				var markerImage = markerImages[tree.properties.ikontyp];
-			
 			/*
 				if (treePath) {
 					var title = tree.title.mTextform;
@@ -317,12 +312,7 @@ $(document).ready(function() {
 						$("#info_window").infoWindow('showData', {marker: marker, data: tree});
 					}
 				}
-			
-				google.maps.event.addListener(marker, 'click', function(e) {
-					$("#info_window").infoWindow('showData', {marker: marker, data: tree});
-				});
 */
-			}
 		});
 	});
 });
