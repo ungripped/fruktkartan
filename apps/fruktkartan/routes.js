@@ -43,8 +43,12 @@ var routes = function(app) {
             Koordinater: tree.Koordinater[0]
           };
         }
+        else {
+          return false;
+        }
       });
 
+      trees = _.filter(trees, function(tree) { return tree !== false });
       console.log(trees.length);
 
 
