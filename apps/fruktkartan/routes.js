@@ -6,7 +6,10 @@ var request = require('request'),
 
 var routes = function(app) {
 
+  // TODO: articleTemplate is using the old format from the website.
+  // TODO: migrate web to new mobile driven json format
   var articleTemplate = fs.readFileSync(__dirname + '/views/article.ejs', 'utf8');
+  var treeTemplate    = fs.readFileSync(__dirname + '/views/tree.ejs', 'utf8');
 
   app.get('/', function(req, res){
     res.render('index', {
@@ -14,6 +17,35 @@ var routes = function(app) {
     });
   });
 
+  app.get('/image/:name', function(req, res) {
+    console.log('Getting image: ' + req.params.name);
+
+    request({
+        method: 'GET',
+        uri: 'http://xn--ssongsmat-v2a.nu/w/api.php',
+        json: true,
+        qs: {
+          action: 'query',
+          prop: 'imageinfo',
+          titles: req.params.name,
+          iiprop: 'url',
+          iiurlwidth: '640',
+          format: 'json'
+        },
+      },
+      function(error, request, body) {
+        
+        var page = _.chain(body.query.pages).values().first().value();
+        var info = page.imageinfo[0];
+
+        res.send({
+          url: info.thumburl,
+          width: info.thumbwidth,
+          height: info.thumbheight
+        });
+      }
+    );
+  });
 
   app.get('/pos', function(req, res) {
   //var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=[[Fruktträd::%2B]]&po=Artikel|Bild|Ikontyp|Beskrivning|Koordinater&format=json";
@@ -22,7 +54,7 @@ var routes = function(app) {
     
     request(url, function(error, response, body) {
       var resultObj = JSON.parse(body);
-      console.log(body);
+      //console.log(body);
       var trees = _.pluck(resultObj.query.results, "printouts");
 
       var articles = _.pluck(trees, "Artikel");
@@ -55,6 +87,148 @@ var routes = function(app) {
       res.send(trees);
     })
   });
+
+  function uploadImage(file, name, cb) {
+    fs.readFile(file.path, function (err, data) {
+      if (err) cb(err, null);
+      
+      request({
+        method: 'POST',
+        uri: 'http://xn--ssongsmat-v2a.nu/w/api.php',
+        headers: {
+          'content-type': 'multipart/form-data'
+        },
+        multipart: [
+          {
+            'Content-Disposition': 'form-data; name="action"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': 'upload'
+          },
+          {
+            'Content-Disposition': 'form-data; name="filename"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': file.name
+          },
+          {
+            'Content-Disposition': 'form-data; name="text"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': 'Från iPhone-klient'
+          },
+          {
+            'Content-Disposition': 'form-data; name="comment"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': 'Från fruktkartan.se'
+          },
+          {
+            'Content-Disposition': 'form-data; name="token"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': '+\\'
+          },
+          {
+            'Content-Disposition': 'form-data; name="format"',
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding': '8bit',
+            'body': 'json'
+          },
+          {
+            'Content-Disposition': 'form-data; name="file"; filename="' + file.name + '"',
+            'Content-Type': 'application/octet-stream; charset=UTF-8',
+            'Content-Transfer-Encoding': 'binary',
+            'body': data
+          },
+        ] 
+      }, function (error, response, body) {
+        if(response.statusCode == 200){
+          console.log('document saved!');
+          var json = JSON.parse(body);
+          if (json.upload && json.upload.result == "Success") {
+            cb(null, json.upload.filename);
+          }
+          else {
+            console.log("UPLOAD FAILED: ");
+            console.log(body);
+            cb("Upload failed", null);
+          }
+        } 
+        else {
+          console.log('error: '+ response.statusCode);
+          console.log(body);
+          cb(error, null);
+        }
+      });
+    });
+  }
+
+  app.put('/tree', function(req, res) {
+
+    console.log(req.body);
+    console.log("-----------");
+    console.log(req.files);
+
+    console.log(req.body.Artikel);
+    //var tree = JSON.parse(req.body);
+
+    req.body.Bild = '';
+    if (_.size(req.files) == 1) {
+
+      _(req.files).each(function(file, name) {
+        
+        uploadImage(file, name, function(error, savedFile) {
+          if (error == null) {
+            req.body.Bild = savedFile;
+            addTree(req.body)
+            res.send("OK");
+          }
+        });
+        
+      });
+    }
+    else {
+      addTree(req.body);
+      res.send("OK");
+    }
+
+
+    
+  });
+
+  function addTree(tree, cb) {
+    var mwEdit = ejs.render(treeTemplate, {locals: tree});
+    var posStr = tree.pos.lat + "," + tree.pos.lon;
+
+    var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
+    editData = {
+      action: 'edit',
+      title: 'Fruktträd:'+posStr,
+      summary: 'Från fruktkartan.se',
+      section: 'new',
+      text: mwEdit,
+      token: '+\\',
+      format: 'json'
+    };
+
+    request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
+      var jsonRes = JSON.parse(body);
+      console.log(jsonRes);
+      /*
+      var ret = {status: ""};
+      if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
+        ret.status = "OK";
+      }
+      else {
+        ret.status = "Error";
+        ret.error = "Kunde inte lägga till träd.";
+      }
+
+      res.send(ret);
+      */
+    });
+  }
 
   app.post('/pos/add', function(req, res) {
     var pos = JSON.parse(req.body.pos);
