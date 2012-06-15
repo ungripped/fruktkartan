@@ -277,7 +277,7 @@ var routes = function(app) {
       res.send(ret);
       */
     });
-    console.log("Whoopsie?"));
+    console.log("Whoopsie?");
   }
 
   app.post('/pos/add', function(req, res) {
