@@ -149,10 +149,10 @@ var routes = function(app) {
           console.log('document saved!');
           var json = JSON.parse(body);
           if (json.upload && json.upload.result == "Success") {
-            cb(null, "Fil:" + json.upload.filename);
+            cb(null, json.upload.filename);
           }
           else if (json.upload && json.upload.result == "Warning" && json.upload.warnings.duplicate && json.upload.warnings.duplicate.length > 0) {
-            cb(null, "Fil: " + json.upload.warnings.duplicate[0]);
+            cb(null, json.upload.warnings.duplicate[0]);
           }
           else {
             console.log("UPLOAD FAILED: ");
@@ -202,8 +202,12 @@ var routes = function(app) {
               console.log("Tree added with image, sending reply...");
               console.log("After: ");
               console.log(tree);
-              if (!error) 
+              if (!error) {
+                if (tree.Bild.substring(0, 4) != "Fil:")
+                  tree.Bild = "Fil:" + tree.Bild;
+                
                 res.send(tree);
+              }
               else
                 res.send("Kunde inte ladda upp träd");
             });
