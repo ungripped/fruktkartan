@@ -190,7 +190,7 @@ var routes = function(app) {
 
     req.body.Bild = '';
     if (_.size(req.files) == 1) {
-
+      console.log("Got images");
       _(req.files).each(function(file, name) {
         
         uploadImage(file, name, function(error, savedFile) {
@@ -212,6 +212,7 @@ var routes = function(app) {
       });
     }
     else {
+      console.log("No images");
       addTree(req.body, function(error, tree) {
         console.log("Tree added without image, sending reply...");
         if (!error) 
