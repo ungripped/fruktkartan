@@ -55,20 +55,22 @@ var routes = function(app) {
     request(url, function(error, response, body) {
       var resultObj = JSON.parse(body);
       //console.log(body);
-      var trees = _.pluck(resultObj.query.results, "printouts");
+      //var trees = _.pluck(resultObj.query.results, "printouts");
 
       var articles = _.pluck(trees, "Artikel");
       var coords = _.pluck(trees, "Koordinater");
 
 
-      trees = _.map(trees, function(tree, key) {
-
+      var trees = _.map(resultObj.query.results, function(obj, key) {
+        //console.log(arguments);
+        var tree = obj.printouts;
         if (tree.Artikel.length > 0) {
 
           return {
             Artikel: tree.Artikel[0].fulltext,
+            Original: obj.fulltext,
             url: tree.Artikel[0].fullurl,
-            Bild: tree.Bild[0],
+            Bild: tree.Bild.length > 0 ? tree.Bild[0].fulltext : undefined,
             Ikon: tree.Ikon[0],
             Ikontyp: tree.Ikontyp[0],
             Beskrivning: tree.Beskrivning[0],
@@ -147,7 +149,10 @@ var routes = function(app) {
           console.log('document saved!');
           var json = JSON.parse(body);
           if (json.upload && json.upload.result == "Success") {
-            cb(null, json.upload.filename);
+            cb(null, "Fil:" + json.upload.filename);
+          }
+          else if (json.upload && json.upload.result == "Warning" && json.upload.warnings.duplicate && json.upload.warnings.duplicate.length > 0) {
+            cb(null, "Fil: " + json.upload.warnings.duplicate[0]);
           }
           else {
             console.log("UPLOAD FAILED: ");
@@ -164,8 +169,18 @@ var routes = function(app) {
     });
   }
 
-  app.put('/tree', function(req, res) {
+  app.post('/tree', function(req, res) {
+    console.log("POST tree");
+    editTree(req, res, '0');
+  });
 
+  app.put('/tree', function(req, res) {
+    console.log("PUT tree");
+    editTree(req, res, 'new')
+  });
+
+  //app.put('/tree', function(req, res) {
+  function editTree(req, res, section) {
     console.log(req.body);
     console.log("-----------");
     console.log(req.files);
@@ -181,32 +196,46 @@ var routes = function(app) {
         uploadImage(file, name, function(error, savedFile) {
           if (error == null) {
             req.body.Bild = savedFile;
-            addTree(req.body)
-            res.send("OK");
+            console.log("Before: ");
+            console.log(req.body);
+            addTree(req.body, function(error, tree) {
+              console.log("Tree added with image, sending reply...");
+              console.log("After: ");
+              console.log(tree);
+              if (!error) 
+                res.send(tree);
+              else
+                res.send("Kunde inte ladda upp träd");
+            });
           }
         });
-        
       });
     }
     else {
-      addTree(req.body);
-      res.send("OK");
+      addTree(req.body, function(error, tree) {
+        console.log("Tree added without image, sending reply...");
+        if (!error) 
+          res.send(tree);
+        else
+          res.send("Kunde inte ladda upp träd");
+      });
     }
 
 
     
-  });
+  };
 
   function addTree(tree, cb) {
     var mwEdit = ejs.render(treeTemplate, {locals: tree});
     var posStr = tree.pos.lat + "," + tree.pos.lon;
 
+    var title = tree.Original ? tree.Original : "Fruktträd:"+posStr;
+
     var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
     editData = {
       action: 'edit',
-      title: 'Fruktträd:'+posStr,
+      title: title,
       summary: 'Från fruktkartan.se',
-      section: 'new',
       text: mwEdit,
       token: '+\\',
       format: 'json'
@@ -214,7 +243,19 @@ var routes = function(app) {
 
     request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
       var jsonRes = JSON.parse(body);
-      console.log(jsonRes);
+      if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
+        cb(null, {
+            Artikel: tree.Artikel,
+            Original: jsonRes["edit"]["title"],
+            url: tree.url,
+            Bild: tree.Bild,
+            Beskrivning: tree.Beskrivning,
+            Koordinater: tree.pos
+        });
+      }
+      else {
+        cb("Kunde inte lägga till träd.", null);
+      }
       /*
       var ret = {status: ""};
       if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
