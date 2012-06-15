@@ -230,11 +230,13 @@ var routes = function(app) {
     console.log("Adding tree:");
     console.log(tree);
     var mwEdit = ejs.render(treeTemplate, {locals: tree});
+    console.log("1");
     var posStr = tree.pos.lat + "," + tree.pos.lon;
-
+console.log("1");
     var title = tree.Original ? tree.Original : "Fruktträd:"+posStr;
-
+console.log("1");
     var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
+    console.log("1");
     editData = {
       action: 'edit',
       title: title,
@@ -243,6 +245,7 @@ var routes = function(app) {
       token: '+\\',
       format: 'json'
     };
+    console.log("1");
 
     console.log("Sending request");
     request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
