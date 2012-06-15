@@ -227,6 +227,8 @@ var routes = function(app) {
   };
 
   function addTree(tree, cb) {
+    console.log("Adding tree:");
+    console.log(tree);
     var mwEdit = ejs.render(treeTemplate, {locals: tree});
     var posStr = tree.pos.lat + "," + tree.pos.lon;
 
@@ -242,9 +244,13 @@ var routes = function(app) {
       format: 'json'
     };
 
+    console.log("Sending request");
     request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
+      console.log("Response received:");
+      console.log(body);
       var jsonRes = JSON.parse(body);
       if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
+        console.log("Success, callback");
         cb(null, {
             Artikel: tree.Artikel,
             Original: jsonRes["edit"]["title"],
@@ -255,6 +261,7 @@ var routes = function(app) {
         });
       }
       else {
+        console.log("Error");
         cb("Kunde inte lägga till träd.", null);
       }
       /*
@@ -270,6 +277,7 @@ var routes = function(app) {
       res.send(ret);
       */
     });
+    console.log("Whoopsie?"));
   }
 
   app.post('/pos/add', function(req, res) {
