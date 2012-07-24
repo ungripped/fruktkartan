@@ -6,9 +6,6 @@ var request = require('request'),
 
 var routes = function(app) {
 
-  // TODO: articleTemplate is using the old format from the website.
-  // TODO: migrate web to new mobile driven json format
-  var articleTemplate = fs.readFileSync(__dirname + '/views/article.ejs', 'utf8');
   var treeTemplate    = fs.readFileSync(__dirname + '/views/tree.ejs', 'utf8');
 
   app.get('/', function(req, res){
@@ -189,7 +186,7 @@ var routes = function(app) {
     //var tree = JSON.parse(req.body);
 
     req.body.Bild = '';
-    if (_.size(req.files) == 1) {
+    if (req.files && _.size(req.files) == 1) {
       console.log("Got images");
       _(req.files).each(function(file, name) {
         
@@ -233,14 +230,12 @@ var routes = function(app) {
   function addTree(tree, cb) {
     console.log("Adding tree:");
     console.log(tree);
+
     var mwEdit = ejs.render(treeTemplate, {locals: tree});
-    console.log("1");
     var posStr = tree.pos.lat + "," + tree.pos.lon;
-console.log("1");
     var title = tree.Original ? tree.Original : "Fruktträd:"+posStr;
-console.log("1");
     var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
-    console.log("1");
+
     editData = {
       action: 'edit',
       title: title,
@@ -249,7 +244,6 @@ console.log("1");
       token: '+\\',
       format: 'json'
     };
-    console.log("1");
 
     console.log("Sending request");
     request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
@@ -271,61 +265,10 @@ console.log("1");
         console.log("Error");
         cb("Kunde inte lägga till träd.", null);
       }
-      /*
-      var ret = {status: ""};
-      if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
-        ret.status = "OK";
-      }
-      else {
-        ret.status = "Error";
-        ret.error = "Kunde inte lägga till träd.";
-      }
-
-      res.send(ret);
-      */
+     
     });
     console.log("Whoopsie?");
   }
-
-  app.post('/pos/add', function(req, res) {
-    var pos = JSON.parse(req.body.pos);
-    
-    var mwEdit = ejs.render(articleTemplate, {locals: pos});
-
-    console.log(mwEdit);
-    var posStr = pos.info_pos.lat + "," + pos.info_pos.lng;
-    
-    var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
-    //var editData = encodeURI("action=edit&title=Fruktträd:"+ posStr +"&summary=Från fruktkartan.se&section=new&text="+mwEdit)+"&token=%2B%5C";
-    //var editData = encodeURI("action=edit&title=Säsongsmat:Fruktträd/Lista&summary=Från fruktkartan.se&section=new&text="+rendered)+"&token=%2B%5C";
-    editData = {
-      action: 'edit',
-      title: 'Fruktträd:'+posStr,
-      summary: 'Från fruktkartan.se',
-      section: 'new',
-      text: mwEdit,
-      token: '+\\',
-      format: 'json'
-    };
-    console.log(editData);
-
-    //req.pipe(request.post())
-
-    request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
-      var jsonRes = JSON.parse(body);
-      var ret = {status: ""};
-      if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
-        ret.status = "OK";
-      }
-      else {
-        ret.status = "Error";
-        ret.error = "Kunde inte lägga till träd.";
-      }
-
-      res.send(ret);
-    });
-    //request.post({url: editUrl, body: editData}).pipe(res);
-  });
 };
 
 module.exports = routes;

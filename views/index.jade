@@ -1,45 +1,46 @@
-h1.centered= title
-.container_12
-	#fruktkarta.grid_12
-	p.centered.info Zooma ut för att hitta alla träd. 
-.footer	
-	.container_12
-		.grid_6
-			h2 Kontakt
-			.mediablock.clearfix
-				.image
-					img(src='/images/twitter.png')
-				ul.social.content
-					li
-						a(href='http://www.twitter.com/mryhanen') @mryhanen
-					li
-						a(href='http://www.twitter.com/leo_wallentin') @leo_wallentin
-					li
-						a(href='http://www.twitter.com/sasongsmat') @sasongsmat
-			.mediablock.clearfix
-				.image
-					img(src='/images/facebook.png')
-				ul.social.content
-					li
-						a(href='http://www.facebook.com/sasongsmat') Säsongsmat
-			.mediablock.clearfix
-				.image
-					img(src='/images/email.png')
-				ul.social.content
-					li
-						a(href='mailto:mail@sasongsmat.nu') mail@sasongsmat.nu
-		.grid_6
-			h2 Om fruktkartan.se
-			p 
-				| fruktkartan.se är en öppen databas med fruktträd. Vem som helst kan lägga till nya träd.
-				| Informationen om träden <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:Fruktkarta">sparas</a> på sajten <a href="http://xn--ssongsmat-v2a.nu/ssm/Huvudsida">säsongsmat.nu</a> och kan användas 
-				| tillsammans med artiklar och säsongsinformation om frukterna där.
-			p
-				| Andra sajter och appar kan använda information härifrån, via ett <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:API">öppet API</a>.
-			
-		.grid_12
-			p.centered
-				a(href="http://xn--ssongsmat-v2a.nu/ssm/Huvudsida") 
-					img(src='https://s3-eu-west-1.amazonaws.com/sasongsmat-1/images/sasongsmat_VAR.png', width='300').
-			
+div#app
+  header.main
+    h1.logo= title
+    nav
+      a(href='#', title='Lägg till träd', data-bind='click: addTree').plus
+      a(href='#', title='Om fruktkartan.se', data-bind='click: toggleInfo').info 
+
+  section#fruktkarta
+
+  footer(data-bind='css: {open: showingInfo}')
+    section#contact
+      h2 Kontakt
+      .mediablock.clearfix
+          .image
+            img(src='/images/twitter.png')
+          ul.social.content
+            li
+              a(href='http://www.twitter.com/mryhanen') @mryhanen
+            li
+              a(href='http://www.twitter.com/leo_wallentin') @leo_wallentin
+            li
+              a(href='http://www.twitter.com/sasongsmat') @sasongsmat
+        .mediablock.clearfix
+          .image
+            img(src='/images/facebook.png')
+          ul.social.content
+            li
+              a(href='http://www.facebook.com/sasongsmat') Säsongsmat
+        .mediablock.clearfix
+          .image
+            img(src='/images/email.png')
+          ul.social.content
+            li
+              a(href='mailto:mail@sasongsmat.nu') mail@sasongsmat.nu
+
+    section#about
+      h2 Om fruktkartan.se
+      p 
+        | fruktkartan.se är en öppen databas med fruktträd. Vem som helst kan lägga till nya träd.
+        | Informationen om träden <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:Fruktkarta">sparas</a> på sajten <a href="http://xn--ssongsmat-v2a.nu/ssm/Huvudsida">säsongsmat.nu</a> och kan användas 
+        | tillsammans med artiklar och säsongsinformation om frukterna där.
+      p
+        | Andra sajter och appar kan använda information härifrån, via ett <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:API">öppet API</a>.
+
 include infowindow
+include addtreewindow

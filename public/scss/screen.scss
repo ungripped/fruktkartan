@@ -1,0 +1,237 @@
+@import "compass/css3";
+
+$default-text-shadow-color: rgba(white, 0.8);
+$default-text-shadow-blur: 0px;
+$default-text-shadow-v-offset: 1px;
+$default-text-shadow-h-offset: 0px;
+
+html, body {
+  font: 1em/1.5em Helvetica, Arial, sans-serif;
+}
+
+header.main {
+  position: fixed;
+  top: 0; left: 0;
+  height: 80px;
+  width: 100%;
+  z-index: 20;
+
+  @include background(url(../images/navbar.png) bottom left repeat-x);
+
+  h1.logo {
+    margin: 0 auto;
+    height: 69px;
+    width: 317px;
+    overflow: hidden;
+    
+  }
+  h1:before {
+    content: url(../images/LogoSmall.png);
+    display: inline-block;
+  }
+
+  nav {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 70px;
+
+    a.plus {
+      display: block;
+      position: absolute;
+      top: 15px; right: 20px;
+      width: 29px; height: 29px;
+      @include background(url(../images/icon-plus.png) top left no-repeat);
+    }
+    a.info {
+      display: block;
+      position: absolute;
+      top: 15px; left: 20px;
+      width: 33px; height: 33px;
+      @include background(url(../images/icon-info.png) top left no-repeat);
+    }
+  }
+}
+
+section#fruktkarta {
+  position: absolute;
+  top: 60px; bottom: 0px;
+  left: 0px; right: 0px;
+}
+
+#fruktkarta.map_state_adding div {
+  cursor: crosshair !important;
+}
+
+.infowindow {
+  @include background(url(../images/info-bg.png) top left repeat !important );
+  overflow: visible !important;
+
+  .info_view {
+    h3 {
+      color: black;
+      @include single-text-shadow;
+
+      a {
+        color: black;
+        text-decoration: none;
+      }
+    }
+
+    h3:after {
+      content: " ";
+      display: block;
+      width: 300px;
+      height: 2px;
+      background: url(../images/separator.png) top left no-repeat;
+      background-size: 300px 2px;
+      margin: 5px auto;
+    }
+
+    p {
+      font-size: 0.75em;
+    }
+  }
+}
+
+.infowindow {
+
+  .info_view {
+    form {
+
+      textarea {
+        margin-top: 5px;
+        height: 40px;
+        width: 294px;
+      }
+
+      input#info_extra {
+        display: inline-block;
+        margin-left: 5px;
+        width: 183px;
+      }
+
+      a {
+        font-size: 0.75em;
+        display: inline-block;
+        margin-left: 10px;
+        color: rgba(255, 153, 51, 0.7);
+      }
+
+      p {
+        font-size: 0.7em;
+        text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+footer {
+  position: absolute;
+  top: -250px;
+  padding-top: 15px;
+  z-index: 10;
+  border-bottom: 1px solid rgba(black, 0.3);
+  @include background(url(../images/info-bg.png) top left repeat !important );
+
+  @include transition(top 0.4s ease-out);
+
+  section {
+    width: 50%;
+    float: left;
+
+    & > * {
+      margin: 20px;
+    }
+
+    a {
+      color: #ff9933;
+    }
+  }
+
+  h2 {
+    font-size: 1.5em;
+    @include single-text-shadow;
+    text-align: center;
+  }
+
+  h2:after {
+    content: " ";
+    display: block;
+    width: 300px;
+    height: 2px;
+    background: url(../images/separator.png) top left no-repeat;
+    background-size: 300px 2px;
+    margin: 5px auto;
+  }
+
+  .mediablock {
+    .image {
+      float: left;
+      width: 50px;
+    }
+    .content {
+      float: left;
+    }
+    
+    ul li {
+      margin-left: 0px;
+    }
+  }
+
+  ul.social {
+    list-style: none;
+  }
+}
+
+footer.open {
+  top: 60px;
+}
+
+
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after,
+.container_12:before,
+.container_12:after {
+  content: '.';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after,
+.container_12:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix,
+.container_12 {
+  zoom: 1;
+}
+

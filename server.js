@@ -18,7 +18,7 @@ app.configure(function(){
   app.use(express.cookieParser());
 
   // Use logging middleware
-  app.use(express.logger());
+  //app.use(express.logger());
   //app.use(logging.requestLogger);
   
   //app.use(express.session({ secret: 'your secret here' }));

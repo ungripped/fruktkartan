@@ -1,0 +1,234 @@
+/* line 8, ../scss/screen.scss */
+html, body {
+  font: 1em/1.5em Helvetica, Arial, sans-serif;
+}
+
+/* line 12, ../scss/screen.scss */
+header.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+  z-index: 20;
+  background: url(../images/navbar.png) bottom left repeat-x;
+}
+/* line 21, ../scss/screen.scss */
+header.main h1.logo {
+  margin: 0 auto;
+  height: 69px;
+  width: 317px;
+  overflow: hidden;
+}
+/* line 28, ../scss/screen.scss */
+header.main h1:before {
+  content: url(../images/LogoSmall.png);
+  display: inline-block;
+}
+/* line 33, ../scss/screen.scss */
+header.main nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+}
+/* line 39, ../scss/screen.scss */
+header.main nav a.plus {
+  display: block;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 29px;
+  height: 29px;
+  background: url(../images/icon-plus.png) top left no-repeat;
+}
+/* line 46, ../scss/screen.scss */
+header.main nav a.info {
+  display: block;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  width: 33px;
+  height: 33px;
+  background: url(../images/icon-info.png) top left no-repeat;
+}
+
+/* line 56, ../scss/screen.scss */
+section#fruktkarta {
+  position: absolute;
+  top: 60px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+/* line 62, ../scss/screen.scss */
+#fruktkarta.map_state_adding div {
+  cursor: crosshair !important;
+}
+
+/* line 66, ../scss/screen.scss */
+.infowindow {
+  background: url(../images/info-bg.png) top left repeat !important;
+  overflow: visible !important;
+}
+/* line 71, ../scss/screen.scss */
+.infowindow .info_view h3 {
+  color: black;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+}
+/* line 75, ../scss/screen.scss */
+.infowindow .info_view h3 a {
+  color: black;
+  text-decoration: none;
+}
+/* line 81, ../scss/screen.scss */
+.infowindow .info_view h3:after {
+  content: " ";
+  display: block;
+  width: 300px;
+  height: 2px;
+  background: url(../images/separator.png) top left no-repeat;
+  background-size: 300px 2px;
+  margin: 5px auto;
+}
+/* line 91, ../scss/screen.scss */
+.infowindow .info_view p {
+  font-size: 0.75em;
+}
+
+/* line 102, ../scss/screen.scss */
+.infowindow .info_view form textarea {
+  margin-top: 5px;
+  height: 40px;
+  width: 294px;
+}
+/* line 108, ../scss/screen.scss */
+.infowindow .info_view form input#info_extra {
+  display: inline-block;
+  margin-left: 5px;
+  width: 183px;
+}
+/* line 114, ../scss/screen.scss */
+.infowindow .info_view form a {
+  font-size: 0.75em;
+  display: inline-block;
+  margin-left: 10px;
+  color: rgba(255, 153, 51, 0.7);
+}
+/* line 121, ../scss/screen.scss */
+.infowindow .info_view form p {
+  font-size: 0.7em;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+}
+
+/* line 129, ../scss/screen.scss */
+footer {
+  position: absolute;
+  top: -250px;
+  padding-top: 15px;
+  z-index: 10;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  background: url(../images/info-bg.png) top left repeat !important;
+  -webkit-transition: top 0.4s ease-out;
+  -moz-transition: top 0.4s ease-out;
+  -o-transition: top 0.4s ease-out;
+  transition: top 0.4s ease-out;
+}
+/* line 139, ../scss/screen.scss */
+footer section {
+  width: 50%;
+  float: left;
+}
+/* line 143, ../scss/screen.scss */
+footer section > * {
+  margin: 20px;
+}
+/* line 147, ../scss/screen.scss */
+footer section a {
+  color: #ff9933;
+}
+/* line 152, ../scss/screen.scss */
+footer h2 {
+  font-size: 1.5em;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+/* line 158, ../scss/screen.scss */
+footer h2:after {
+  content: " ";
+  display: block;
+  width: 300px;
+  height: 2px;
+  background: url(../images/separator.png) top left no-repeat;
+  background-size: 300px 2px;
+  margin: 5px auto;
+}
+/* line 169, ../scss/screen.scss */
+footer .mediablock .image {
+  float: left;
+  width: 50px;
+}
+/* line 173, ../scss/screen.scss */
+footer .mediablock .content {
+  float: left;
+}
+/* line 177, ../scss/screen.scss */
+footer .mediablock ul li {
+  margin-left: 0px;
+}
+/* line 182, ../scss/screen.scss */
+footer ul.social {
+  list-style: none;
+}
+
+/* line 187, ../scss/screen.scss */
+footer.open {
+  top: 60px;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+/* http://sonspring.com/journal/clearing-floats */
+/* line 198, ../scss/screen.scss */
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+/* line 212, ../scss/screen.scss */
+.clearfix:before,
+.clearfix:after,
+.container_12:before,
+.container_12:after {
+  content: '.';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+/* line 224, ../scss/screen.scss */
+.clearfix:after,
+.container_12:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+/* line 234, ../scss/screen.scss */
+.clearfix,
+.container_12 {
+  zoom: 1;
+}
