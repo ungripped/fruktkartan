@@ -128,7 +128,8 @@ section#fruktkarta {
 
 footer {
   position: absolute;
-  top: -250px;
+  top: -700px;
+
   padding-top: 15px;
   z-index: 10;
   border-bottom: 1px solid rgba(black, 0.3);
@@ -153,15 +154,18 @@ footer {
     font-size: 1.5em;
     @include single-text-shadow;
     text-align: center;
+    @media (max-width: 320px) {
+      font-size: 1.2em;
+    }
   }
 
   h2:after {
     content: " ";
     display: block;
-    width: 300px;
+    width: 90%;
     height: 2px;
     background: url(../images/separator.png) top left no-repeat;
-    background-size: 300px 2px;
+    background-size: 90% 2px;
     margin: 5px auto;
   }
 

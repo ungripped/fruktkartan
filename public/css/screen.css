@@ -126,7 +126,7 @@ section#fruktkarta {
 /* line 129, ../scss/screen.scss */
 footer {
   position: absolute;
-  top: -250px;
+  top: -700px;
   padding-top: 15px;
   z-index: 10;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
@@ -155,35 +155,41 @@ footer h2 {
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
   text-align: center;
 }
-/* line 158, ../scss/screen.scss */
+@media (max-width: 320px) {
+  /* line 152, ../scss/screen.scss */
+  footer h2 {
+    font-size: 1.2em;
+  }
+}
+/* line 161, ../scss/screen.scss */
 footer h2:after {
   content: " ";
   display: block;
-  width: 300px;
+  width: 90%;
   height: 2px;
   background: url(../images/separator.png) top left no-repeat;
-  background-size: 300px 2px;
+  background-size: 90% 2px;
   margin: 5px auto;
 }
-/* line 169, ../scss/screen.scss */
+/* line 172, ../scss/screen.scss */
 footer .mediablock .image {
   float: left;
   width: 50px;
 }
-/* line 173, ../scss/screen.scss */
+/* line 176, ../scss/screen.scss */
 footer .mediablock .content {
   float: left;
 }
-/* line 177, ../scss/screen.scss */
+/* line 180, ../scss/screen.scss */
 footer .mediablock ul li {
   margin-left: 0px;
 }
-/* line 182, ../scss/screen.scss */
+/* line 185, ../scss/screen.scss */
 footer ul.social {
   list-style: none;
 }
 
-/* line 187, ../scss/screen.scss */
+/* line 190, ../scss/screen.scss */
 footer.open {
   top: 60px;
 }
@@ -191,7 +197,7 @@ footer.open {
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
 /* http://sonspring.com/journal/clearing-floats */
-/* line 198, ../scss/screen.scss */
+/* line 201, ../scss/screen.scss */
 .clear {
   clear: both;
   display: block;
@@ -202,7 +208,7 @@ footer.open {
 }
 
 /* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
-/* line 212, ../scss/screen.scss */
+/* line 215, ../scss/screen.scss */
 .clearfix:before,
 .clearfix:after,
 .container_12:before,
@@ -217,7 +223,7 @@ footer.open {
   height: 0;
 }
 
-/* line 224, ../scss/screen.scss */
+/* line 227, ../scss/screen.scss */
 .clearfix:after,
 .container_12:after {
   clear: both;
@@ -227,7 +233,7 @@ footer.open {
   The following zoom:1 rule is specifically for IE6 + IE7.
   Move to separate stylesheet if invalid CSS is a problem.
 */
-/* line 234, ../scss/screen.scss */
+/* line 237, ../scss/screen.scss */
 .clearfix,
 .container_12 {
   zoom: 1;
