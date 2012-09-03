@@ -6,6 +6,8 @@ var request = require('request'),
 
 var routes = function(app) {
 
+  var cachedTrees = null;
+
   var treeTemplate    = fs.readFileSync(__dirname + '/views/tree.ejs', 'utf8');
 
   app.get('/', function(req, res){
@@ -44,7 +46,7 @@ var routes = function(app) {
     );
   });
 
-  function getTrees(req, res, coordinates) {
+  function getTrees(coordinates, cb) {
     console.log("Getting trees for coordinates: " + coordinates);
     var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&query=%5B%5BFrukttr%C3%A4d%3A%2B%5D%5D%7C%3FArtikel%7C%3FBild%7C%3FIkon%7C%3FIkontyp%7C%3FBeskrivning%7C%3FKoordinater%7Climit=500&format=json";
     
@@ -82,19 +84,29 @@ var routes = function(app) {
       console.log("Number of trees: " + trees.length);
 
 
-      res.send(trees);
+      cb(trees);
     });
   }
 
+  function handlePosRequest(req, res) {
+    var isCached = !!cachedTrees;
+    getTrees(req.params.coordinates, function(trees) {
+      cachedTrees = trees;
+      if (!isCached) {
+        res.send(trees);
+      }
+    });
+    if (isCached) {
+      res.send(cachedTrees);
+    }
+  }
+
   app.get('/pos/:coordinates', function(req, res) {
-    getTrees(req, res, req.params.coordinates);
+    handlePosRequest(req, res);
   });
 
   app.get('/pos', function(req, res) {
-    getTrees(req, res);
-  //var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=[[Fruktträd::%2B]]&po=Artikel|Bild|Ikontyp|Beskrivning|Koordinater&format=json";
-  //gammal syntax: //var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&q=%5B%5BFrukttr%C3%A4d%3A%2B%5D%5D&po=Artikel|Bild|Ikon|Ikontyp|Beskrivning|Koordinater&format=json";
-    
+    handlePosRequest(req, res);
   });
 
   function uploadImage(file, name, cb) {
@@ -277,7 +289,6 @@ var routes = function(app) {
       }
      
     });
-    console.log("Whoopsie?");
   }
 };
 
