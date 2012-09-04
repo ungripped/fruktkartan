@@ -2,11 +2,13 @@ var request = require('request'),
     jade    = require('jade'),
     fs      = require('fs'),
     ejs     = require('ejs'),
+    cache   = require('./cache'),
     _       = require('underscore');
 
 var routes = function(app) {
 
-  var cachedTrees = null;
+  var cachedTrees = Object.create(cache);
+  var lastCached = null;
 
   var treeTemplate    = fs.readFileSync(__dirname + '/views/tree.ejs', 'utf8');
 
@@ -88,16 +90,30 @@ var routes = function(app) {
     });
   }
 
+  app.get('/reloadCache', function(req, res) {
+    console.log("Refreshing cache");
+    getTrees(undefined, function(trees) {
+      cachedTrees.load(trees, "Original");
+      res.send("Cached refreshed");
+    })
+  });
+
   function handlePosRequest(req, res) {
-    var isCached = !!cachedTrees;
-    getTrees(req.params.coordinates, function(trees) {
-      cachedTrees = trees;
-      if (!isCached) {
-        res.send(trees);
-      }
-    });
+    var isCached = !cachedTrees.isEmpty();
+
+    if (!isCached || cachedTrees.age() > 3600) { // one hour cache
+      console.log("Cache timeout, updating...");
+      getTrees(req.params.coordinates, function(trees) {
+        cachedTrees.load(trees, "Original");
+        if (!isCached) {
+          res.send(trees);
+        }
+      });
+    }
+
     if (isCached) {
-      res.send(cachedTrees);
+      console.log("Sending cached values");
+      res.send(cachedTrees.values());
     }
   }
 
@@ -198,14 +214,12 @@ var routes = function(app) {
     editTree(req, res, 'new')
   });
 
-  //app.put('/tree', function(req, res) {
   function editTree(req, res, section) {
     console.log(req.body);
     console.log("-----------");
     console.log(req.files);
 
     console.log(req.body.Artikel);
-    //var tree = JSON.parse(req.body);
 
     req.body.Bild = '';
     if (req.files && _.size(req.files) == 1) {
@@ -224,7 +238,6 @@ var routes = function(app) {
               if (!error) {
                 if (tree.Bild.substring(0, 4) != "Fil:")
                   tree.Bild = "Fil:" + tree.Bild;
-                
                 res.send(tree);
               }
               else
@@ -238,8 +251,9 @@ var routes = function(app) {
       console.log("No images");
       addTree(req.body, function(error, tree) {
         console.log("Tree added without image, sending reply...");
-        if (!error) 
+        if (!error) {
           res.send(tree);
+        }
         else
           res.send("Kunde inte ladda upp träd");
       });
@@ -274,14 +288,17 @@ var routes = function(app) {
       var jsonRes = JSON.parse(body);
       if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
         console.log("Success, callback");
-        cb(null, {
+        var treeObject = {
             Artikel: tree.Artikel,
             Original: jsonRes["edit"]["title"],
             url: tree.url,
             Bild: tree.Bild,
             Beskrivning: tree.Beskrivning,
             Koordinater: tree.pos
-        });
+        };
+
+        cachedTrees.set(treeObject.Original, treeObject);
+        cb(null, treeObject);
       }
       else {
         console.log("Error");
