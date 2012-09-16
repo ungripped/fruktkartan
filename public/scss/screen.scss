@@ -67,6 +67,14 @@ section#fruktkarta {
   @include background(url(../images/info-bg.png) top left repeat !important );
   overflow: visible !important;
 
+  .info-bg {
+    height: 100%;
+  }
+
+  .info_window {
+    height: 100%;
+  }
+
   .info_view {
     h3 {
       color: black;
@@ -90,7 +98,34 @@ section#fruktkarta {
 
     p {
       font-size: 0.75em;
+      height: 100px;
+      overflow: auto;
     }
+  }
+
+  footer {
+
+    position: absolute;
+    bottom: 0;
+    
+    a {
+      color: black;
+      @include single-text-shadow;
+      display: inline-block;
+      line-height: 27px;
+      height: 27px;
+      font-size: 0.6em;
+    }
+  }
+
+  footer:before {
+    content: " ";
+    display: block;
+    width: 300px;
+    height: 2px;
+    background: url(../images/separator.png) top left no-repeat;
+    background-size: 300px 2px;
+    margin: 0 auto;
   }
 }
 
@@ -126,7 +161,7 @@ section#fruktkarta {
   }
 }
 
-footer {
+footer.main {
   position: absolute;
   top: -700px;
 

@@ -126,6 +126,7 @@ function InfoViewModel(options) {
   var self          = this;
 
   self.url          = ko.observable("");
+  self.editUrl      = ko.observable("");
   self.article      = ko.observable("");
   self.description  = ko.observable("");
 
@@ -147,7 +148,7 @@ function InfoViewModel(options) {
     self.url(obj.data.url);
     self.article(obj.data.Artikel);
     self.description(obj.data.Beskrivning);
-
+    self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.infoWindow.open(self.map, obj.marker);
 
     if (self.map.getZoom() < 15) {
@@ -156,6 +157,8 @@ function InfoViewModel(options) {
     }
 
     $('.info-bg').parent().addClass("infowindow");
+
+    window.location.hash = obj.data.TradArtikel;
   }
 
   self.close = function() {
@@ -165,11 +168,13 @@ function InfoViewModel(options) {
   ko.applyBindings(self, self.el);
 }
 
-function PageViewModel() {
+function PageViewModel(treeName) {
   var self          = this;
 
   self.map          = undefined;
   self.markerImages = undefined;
+
+  self.treeName = treeName;
 
   self.showingInfo  = ko.observable(false);
 
@@ -250,6 +255,12 @@ function PageViewModel() {
     google.maps.event.addListener(marker, 'click', function(e) {
       self.infoViewModel.open({marker: marker, data: tree});
     });
+
+    setTimeout(function() {
+      if (tree.TradArtikel == self.treeName) {
+        self.infoViewModel.open({marker: marker, data:tree});
+      }
+    }, 300);
   }
 
   self.load_trees = function() {
@@ -260,7 +271,6 @@ function PageViewModel() {
         if (!tree.Koordinater) return;
 
         self.add_tree(tree);
-        
       });
     });
   }
@@ -278,6 +288,10 @@ function PageViewModel() {
 
 $(document).ready(function() {
   window.FK = {};
-  FK.page = new PageViewModel();
+  var treeName = "";
+  if (window.location.hash.length > 2) {
+    treeName = decodeURI(window.location.hash.substring(1)); 
+  }
+  FK.page = new PageViewModel(treeName);
   ko.applyBindings(FK.page, $('#app')[0]);
 });

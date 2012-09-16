@@ -74,7 +74,9 @@ var routes = function(app) {
             Ikon: tree.Ikon[0],
             Ikontyp: tree.Ikontyp[0],
             Beskrivning: tree.Beskrivning[0],
-            Koordinater: tree.Koordinater[0]
+            Koordinater: tree.Koordinater[0],
+            TradUrl: obj["fullurl"],
+            TradArtikel: obj["fulltext"]
           };
         }
         else {
