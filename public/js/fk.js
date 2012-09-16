@@ -163,6 +163,7 @@ function InfoViewModel(options) {
 
   self.close = function() {
     self.infoWindow.close();
+    window.location.hash = "";
   }
 
   ko.applyBindings(self, self.el);
