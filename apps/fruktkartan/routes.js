@@ -114,16 +114,19 @@ var routes = function(app) {
     }
 
     if (isCached) {
-      console.log("Sending cached values");
       res.send(cachedTrees.values());
     }
   }
 
   app.get('/pos/:coordinates', function(req, res) {
+    console.log(req.connection.remoteAddress + " - " + (new Date()).toString() + " [" + req["headers"]["user-agent"] + ": API call: getting trees (with coordinates, from app)");
+    
     handlePosRequest(req, res);
   });
 
   app.get('/pos', function(req, res) {
+    console.log(req.connection.remoteAddress + " - " + (new Date()).toString() + " [" + req["headers"]["user-agent"] + ": API call: getting trees");
+    
     handlePosRequest(req, res);
   });
 
