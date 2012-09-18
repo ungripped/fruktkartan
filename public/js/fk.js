@@ -257,11 +257,11 @@ function PageViewModel(treeName) {
       self.infoViewModel.open({marker: marker, data: tree});
     });
 
-    setTimeout(function() {
-      if (tree.TradArtikel == self.treeName) {
+    if (tree.TradArtikel == self.treeName) {
+      setTimeout(function() {
         self.infoViewModel.open({marker: marker, data:tree});
-      }
-    }, 300);
+      }, 300);
+    }
   }
 
   self.load_trees = function() {
