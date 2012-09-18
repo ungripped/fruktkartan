@@ -153,11 +153,12 @@ section#fruktkarta {
 }
 /* line 156, ../scss/screen.scss */
 .infowindow .info_view form p {
+  height: 24px;
   font-size: 0.7em;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
 }
 
-/* line 164, ../scss/screen.scss */
+/* line 165, ../scss/screen.scss */
 footer.main {
   position: absolute;
   top: -700px;
@@ -170,32 +171,32 @@ footer.main {
   -o-transition: top 0.4s ease-out;
   transition: top 0.4s ease-out;
 }
-/* line 175, ../scss/screen.scss */
+/* line 176, ../scss/screen.scss */
 footer.main section {
   width: 50%;
   float: left;
 }
-/* line 179, ../scss/screen.scss */
+/* line 180, ../scss/screen.scss */
 footer.main section > * {
   margin: 20px;
 }
-/* line 183, ../scss/screen.scss */
+/* line 184, ../scss/screen.scss */
 footer.main section a {
   color: #ff9933;
 }
-/* line 188, ../scss/screen.scss */
+/* line 189, ../scss/screen.scss */
 footer.main h2 {
   font-size: 1.5em;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
   text-align: center;
 }
 @media (max-width: 320px) {
-  /* line 188, ../scss/screen.scss */
+  /* line 189, ../scss/screen.scss */
   footer.main h2 {
     font-size: 1.2em;
   }
 }
-/* line 197, ../scss/screen.scss */
+/* line 198, ../scss/screen.scss */
 footer.main h2:after {
   content: " ";
   display: block;
@@ -205,25 +206,25 @@ footer.main h2:after {
   background-size: 90% 2px;
   margin: 5px auto;
 }
-/* line 208, ../scss/screen.scss */
+/* line 209, ../scss/screen.scss */
 footer.main .mediablock .image {
   float: left;
   width: 50px;
 }
-/* line 212, ../scss/screen.scss */
+/* line 213, ../scss/screen.scss */
 footer.main .mediablock .content {
   float: left;
 }
-/* line 216, ../scss/screen.scss */
+/* line 217, ../scss/screen.scss */
 footer.main .mediablock ul li {
   margin-left: 0px;
 }
-/* line 221, ../scss/screen.scss */
+/* line 222, ../scss/screen.scss */
 footer.main ul.social {
   list-style: none;
 }
 
-/* line 226, ../scss/screen.scss */
+/* line 227, ../scss/screen.scss */
 footer.open {
   top: 60px;
 }
@@ -231,7 +232,7 @@ footer.open {
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
 /* http://sonspring.com/journal/clearing-floats */
-/* line 237, ../scss/screen.scss */
+/* line 238, ../scss/screen.scss */
 .clear {
   clear: both;
   display: block;
@@ -242,7 +243,7 @@ footer.open {
 }
 
 /* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
-/* line 251, ../scss/screen.scss */
+/* line 252, ../scss/screen.scss */
 .clearfix:before,
 .clearfix:after,
 .container_12:before,
@@ -257,7 +258,7 @@ footer.open {
   height: 0;
 }
 
-/* line 263, ../scss/screen.scss */
+/* line 264, ../scss/screen.scss */
 .clearfix:after,
 .container_12:after {
   clear: both;
@@ -267,7 +268,7 @@ footer.open {
   The following zoom:1 rule is specifically for IE6 + IE7.
   Move to separate stylesheet if invalid CSS is a problem.
 */
-/* line 273, ../scss/screen.scss */
+/* line 274, ../scss/screen.scss */
 .clearfix,
 .container_12 {
   zoom: 1;
