@@ -66,6 +66,8 @@ var routes = function(app) {
         var tree = obj.printouts;
         if (tree.Artikel.length > 0) {
 
+          var beskrivning = tree.Beskrivning[0] ? tree.Beskrivning[0].replace(/(<([^>]+)>)/ig,"") : "";
+
           return {
             Artikel: tree.Artikel[0].fulltext,
             Original: obj.fulltext,
@@ -73,7 +75,7 @@ var routes = function(app) {
             Bild: tree.Bild.length > 0 ? tree.Bild[0].fulltext : undefined,
             Ikon: tree.Ikon[0],
             Ikontyp: tree.Ikontyp[0],
-            Beskrivning: tree.Beskrivning[0],
+            Beskrivning: beskrivning,
             Koordinater: tree.Koordinater[0],
             TradUrl: obj["fullurl"],
             TradArtikel: obj["fulltext"]
@@ -298,7 +300,7 @@ var routes = function(app) {
             Original: jsonRes["edit"]["title"],
             url: tree.url,
             Bild: tree.Bild,
-            Beskrivning: tree.Beskrivning,
+            Beskrivning: tree.Beskrivning.replace(/(<([^>]+)>)/ig,""),
             Koordinater: tree.pos
         };
 

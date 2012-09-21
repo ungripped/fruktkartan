@@ -91,7 +91,7 @@ function AddViewModel(options) {
 
     var tree = {
       Artikel: self.selectedFruit() != "Annan sort" ? self.selectedFruit() : self.customFruit(),
-      Beskrivning: self.description(),
+      Beskrivning: self.description().replace(/(<([^>]+)>)/ig,""),
       pos: {
         lat: pos.lat(),
         lon: pos.lng()
