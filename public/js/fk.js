@@ -133,6 +133,9 @@ function InfoViewModel(options) {
   self.map          = options.map;
   self.el           = $(options.element)[0];
 
+  self.urlPattern = urlPattern = /\[((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?) (.+)\]/;
+
+
   self.infoWindow   = new InfoBubble({
     map: self.map,
     content: self.el,
@@ -147,7 +150,9 @@ function InfoViewModel(options) {
   self.open = function(obj) {
     self.url(obj.data.url);
     self.article(obj.data.Artikel);
-    self.description(obj.data.Beskrivning);
+
+    self.description(obj.data.Beskrivning.replace(self.urlPattern, '<a href="$1">$5</a>'));
+
     self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.infoWindow.open(self.map, obj.marker);
 
