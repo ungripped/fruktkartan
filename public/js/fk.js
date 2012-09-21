@@ -151,7 +151,13 @@ function InfoViewModel(options) {
     self.url(obj.data.url);
     self.article(obj.data.Artikel);
 
-    self.description(obj.data.Beskrivning.replace(self.urlPattern, '<a href="$1">$5</a>'));
+
+    if (obj.data.Beskrivning) {
+      self.description(obj.data.Beskrivning.replace(self.urlPattern, '<a href="$1">$5</a>'));
+    }
+    else {
+      self.description("");
+    }
 
     self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.infoWindow.open(self.map, obj.marker);
