@@ -51,7 +51,7 @@ var routes = function(app) {
   function getTrees(coordinates, cb) {
     console.log("Getting trees for coordinates: " + coordinates);
     //var url = "http://xn--ssongsmat-v2a.nu/w/api.php?action=ask&query=%5B%5BFrukttr%C3%A4d%3A%2B%5D%5D%7C%3FArtikel%7C%3FBild%7C%3FIkon%7C%3FIkontyp%7C%3FBeskrivning%7C%3FKoordinater%7Climit=500&format=json";
-    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D500&format=json";    
+    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D800&format=json";    
     request(url, function(error, response, body) {
       var resultObj = JSON.parse(body);
       //console.log(body);
