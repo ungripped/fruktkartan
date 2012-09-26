@@ -298,6 +298,7 @@ var routes = function(app) {
         var treeObject = {
             Artikel: tree.Artikel,
             Original: jsonRes["edit"]["title"],
+            TradUrl: "http://säsongsmat.nu/ssm/" + jsonRes["edit"]["title"],
             url: tree.url,
             Bild: tree.Bild,
             Beskrivning: tree.Beskrivning.replace(/(<([^>]+)>)/ig,""),

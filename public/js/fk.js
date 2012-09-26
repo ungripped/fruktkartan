@@ -113,7 +113,6 @@ function AddViewModel(options) {
       success: function(responseData, textStatus) {
         self.close();
         self.saving(false);
-        responseData.TradUrl = "http://säsongsmat.nu/ssm/" + responseData.Original;
         FK.page.add_tree(responseData);
       }
 
