@@ -113,7 +113,8 @@ var routes = function(app) {
   function handlePosRequest(req, res) {
     var isCached = !cachedTrees.isEmpty();
 
-    if (!isCached || cachedTrees.age() > 3600) { // one hour cache
+    // Turn off cache timeout for now.
+    if (!isCached) { // || cachedTrees.age() > 3600) { // one hour cache
       console.log("Cache timeout, updating...");
       getTrees(req.params.coordinates, function(trees) {
         cachedTrees.load(trees, "Original");
