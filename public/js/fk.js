@@ -188,6 +188,10 @@ function PageViewModel(treeName) {
 
   self.treeName = treeName;
 
+  self.trees        = ko.observableArray([]);
+
+  self.totalTrees   = ko.computed(function() { return self.trees().length });
+  
   self.showingInfo  = ko.observable(false);
 
   self.init = function() {
@@ -277,6 +281,8 @@ function PageViewModel(treeName) {
 
   self.load_trees = function() {
     $.getJSON('/pos', function(data) {
+
+      self.trees(data);
       
       $.each(data, function(index, tree) {
         if (!tree) return;
