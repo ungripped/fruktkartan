@@ -55,12 +55,17 @@ header.main {
 
 section#fruktkarta {
   position: absolute;
-  top: 60px; bottom: 0px;
+  top: 65px; bottom: 0px;
   left: 0px; right: 0px;
 }
 
 #fruktkarta.map_state_adding div {
   cursor: crosshair !important;
+}
+
+/* Sänk alla kontroller på Google-kartan 10px, för att inte krocka med toppmenyn */
+.gmnoprint {
+  margin-top: 10px !important;
 }
 
 .infowindow {
