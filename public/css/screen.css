@@ -11,7 +11,7 @@ header.main {
   height: 80px;
   width: 100%;
   z-index: 20;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/navbar.png) bottom left repeat-x;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/navbar.png) bottom left repeat-x;
 }
 /* line 21, ../scss/screen.scss */
 header.main h1.logo {
@@ -22,7 +22,7 @@ header.main h1.logo {
 }
 /* line 28, ../scss/screen.scss */
 header.main h1:before {
-  content: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/LogoSmall.png);
+  content: url(//static.sasongsmat.nu/fruktkartan/images/LogoSmall.png);
   display: inline-block;
 }
 /* line 33, ../scss/screen.scss */
@@ -41,7 +41,7 @@ header.main nav a.plus {
   right: 20px;
   width: 29px;
   height: 29px;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/icon-plus.png) top left no-repeat;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/icon-plus.png) top left no-repeat;
 }
 /* line 46, ../scss/screen.scss */
 header.main nav a.info {
@@ -51,7 +51,7 @@ header.main nav a.info {
   left: 20px;
   width: 33px;
   height: 33px;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/icon-info.png) top left no-repeat;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/icon-info.png) top left no-repeat;
 }
 
 /* line 56, ../scss/screen.scss */
@@ -76,7 +76,7 @@ section#fruktkarta {
 
 /* line 71, ../scss/screen.scss */
 .infowindow {
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/info-bg.png) top left repeat !important;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/info-bg.png) top left repeat !important;
   overflow: visible !important;
 }
 /* line 75, ../scss/screen.scss */
@@ -103,7 +103,7 @@ section#fruktkarta {
   display: block;
   width: 300px;
   height: 2px;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/separator.png) top left no-repeat;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/separator.png) top left no-repeat;
   background-size: 300px 2px;
   margin: 5px auto;
 }
@@ -133,7 +133,7 @@ section#fruktkarta {
   display: block;
   width: 300px;
   height: 2px;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/separator.png) top left no-repeat;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/separator.png) top left no-repeat;
   background-size: 300px 2px;
   margin: 0 auto;
 }
@@ -171,7 +171,7 @@ footer.main {
   padding-top: 15px;
   z-index: 10;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/info-bg.png) top left repeat !important;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/info-bg.png) top left repeat !important;
   -webkit-transition: top 0.4s ease-out;
   -moz-transition: top 0.4s ease-out;
   -o-transition: top 0.4s ease-out;
@@ -208,7 +208,7 @@ footer.main h2:after {
   display: block;
   width: 90%;
   height: 2px;
-  background: url(//static.xn--ssongsmat-v2a.nu/fruktkartan/images/separator.png) top left no-repeat;
+  background: url(//static.sasongsmat.nu/fruktkartan/images/separator.png) top left no-repeat;
   background-size: 90% 2px;
   margin: 5px auto;
 }
