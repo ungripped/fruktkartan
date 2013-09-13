@@ -5,9 +5,9 @@ div#add_window(class='info_window')
       div
         select#info_type(data-bind='options: fruits, value: selectedFruit, optionsCaption: "Välj fruktsort"')
         
-        input#info_extra(data-bind='value: customFruit, visible: selectedFruit() == "Annan sort"', placeholder='Namn på annan fruktsort')
+        input#info_extra(data-bind='value: customFruit, visible: selectedFruit() == "Annan sort"', placeholder='Ange fruktsort')
       div
-        textarea#info_desc(name='info_desc', placeholder='Beskrivning, t.ex. hur man hittar till trädet.', data-bind='value: description')
+        textarea#info_desc(name='info_desc', placeholder='Beskriv trädet här!', data-bind='value: description')
 
       div(data-bind='visible: !saving()')
         button#info_save(type='submit') Spara
@@ -16,6 +16,6 @@ div#add_window(class='info_window')
       div(data-bind='visible: saving')
         span#indicator
           img(src='//static.sasongsmat.nu/fruktkartan/images/ajax-loader.gif', alt='arbetar…')
-          span Sparar fruktträd...
+          span Sparar fruktträd…
 
       p Dra och släpp markören för att märka ut trädet på rätt plats.
