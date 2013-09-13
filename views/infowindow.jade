@@ -3,5 +3,8 @@ div#info_window(class='info_window')
     h3: a(target='_blank', data-bind='attr: {href: url}, text: article')
     p(data-bind='html: description')
   footer
-    a(target='_blank', data-bind='attr: {href:editUrl}') Redigera
-    a(target='_blank', data-bind='attr: {href:deleteUrl}') Ta bort
+    ul(class='tools')
+      li
+        a(target='_blank', data-bind='attr: {href:editUrl}') Redigera
+      li
+        a(target='_blank', data-bind='attr: {href:deleteUrl}') Ta bort

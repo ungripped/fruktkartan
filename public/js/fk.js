@@ -213,11 +213,11 @@ function PageViewModel(treeName) {
     var origin      = new google.maps.Point(0, 0);
   
     self.markerImages = {
-      "Äpple": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/marker-apple.png', size, origin, anchorPoint),
-      "Päron": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/marker-pear.png', size, origin, anchorPoint),
-      "Plommon": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/marker-plum.png', size, origin, anchorPoint),
-      "Körsbär": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/marker-cherries.png', size, origin, anchorPoint),
-      "Annan sort": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/marker-empty.png', size, origin, anchorPoint)
+      "Äpple": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-apple.png', size, origin, anchorPoint),
+      "Päron": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-pear.png', size, origin, anchorPoint),
+      "Plommon": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-plum.png', size, origin, anchorPoint),
+      "Körsbär": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-cherries.png', size, origin, anchorPoint),
+      "Annan sort": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-empty.png', size, origin, anchorPoint)
     };
 
     self.set_position();

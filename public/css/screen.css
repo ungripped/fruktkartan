@@ -127,7 +127,16 @@ section#fruktkarta {
   height: 27px;
   font-size: 0.6em;
 }
-/* line 126, ../scss/screen.scss */
+/* line 125, ../scss/screen.scss */
+.infowindow footer ul.tools {
+  list-style: none;
+}
+/* line 129, ../scss/screen.scss */
+.infowindow footer ul.tools li {
+  float: left;
+  padding: right;
+}
+/* line 136, ../scss/screen.scss */
 .infowindow footer:before {
   content: " ";
   display: block;
@@ -138,33 +147,33 @@ section#fruktkarta {
   margin: 0 auto;
 }
 
-/* line 142, ../scss/screen.scss */
+/* line 152, ../scss/screen.scss */
 .infowindow .info_view form textarea {
   margin-top: 5px;
   height: 40px;
   width: 294px;
 }
-/* line 148, ../scss/screen.scss */
+/* line 158, ../scss/screen.scss */
 .infowindow .info_view form input#info_extra {
   display: inline-block;
   margin-left: 5px;
   width: 183px;
 }
-/* line 154, ../scss/screen.scss */
+/* line 164, ../scss/screen.scss */
 .infowindow .info_view form a {
   font-size: 0.75em;
   display: inline-block;
   margin-left: 10px;
   color: rgba(255, 153, 51, 0.7);
 }
-/* line 161, ../scss/screen.scss */
+/* line 171, ../scss/screen.scss */
 .infowindow .info_view form p {
   height: 24px;
   font-size: 0.7em;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
 }
 
-/* line 170, ../scss/screen.scss */
+/* line 180, ../scss/screen.scss */
 footer.main {
   position: absolute;
   top: -700px;
@@ -177,32 +186,32 @@ footer.main {
   -o-transition: top 0.4s ease-out;
   transition: top 0.4s ease-out;
 }
-/* line 181, ../scss/screen.scss */
+/* line 191, ../scss/screen.scss */
 footer.main section {
   width: 50%;
   float: left;
 }
-/* line 185, ../scss/screen.scss */
+/* line 195, ../scss/screen.scss */
 footer.main section > * {
   margin: 20px;
 }
-/* line 189, ../scss/screen.scss */
+/* line 199, ../scss/screen.scss */
 footer.main section a {
   color: #ff9933;
 }
-/* line 194, ../scss/screen.scss */
+/* line 204, ../scss/screen.scss */
 footer.main h2 {
   font-size: 1.5em;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
   text-align: center;
 }
 @media (max-width: 320px) {
-  /* line 194, ../scss/screen.scss */
+  /* line 204, ../scss/screen.scss */
   footer.main h2 {
     font-size: 1.2em;
   }
 }
-/* line 203, ../scss/screen.scss */
+/* line 213, ../scss/screen.scss */
 footer.main h2:after {
   content: " ";
   display: block;
@@ -212,25 +221,25 @@ footer.main h2:after {
   background-size: 90% 2px;
   margin: 5px auto;
 }
-/* line 214, ../scss/screen.scss */
+/* line 224, ../scss/screen.scss */
 footer.main .mediablock .image {
   float: left;
   width: 50px;
 }
-/* line 218, ../scss/screen.scss */
+/* line 228, ../scss/screen.scss */
 footer.main .mediablock .content {
   float: left;
 }
-/* line 222, ../scss/screen.scss */
+/* line 232, ../scss/screen.scss */
 footer.main .mediablock ul li {
   margin-left: 0px;
 }
-/* line 227, ../scss/screen.scss */
+/* line 237, ../scss/screen.scss */
 footer.main ul.social {
   list-style: none;
 }
 
-/* line 232, ../scss/screen.scss */
+/* line 242, ../scss/screen.scss */
 footer.open {
   top: 60px;
 }
@@ -238,7 +247,7 @@ footer.open {
 /* `Clear Floated Elements
 ----------------------------------------------------------------------------------------------------*/
 /* http://sonspring.com/journal/clearing-floats */
-/* line 243, ../scss/screen.scss */
+/* line 253, ../scss/screen.scss */
 .clear {
   clear: both;
   display: block;
@@ -249,7 +258,7 @@ footer.open {
 }
 
 /* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
-/* line 257, ../scss/screen.scss */
+/* line 267, ../scss/screen.scss */
 .clearfix:before,
 .clearfix:after,
 .container_12:before,
@@ -264,7 +273,7 @@ footer.open {
   height: 0;
 }
 
-/* line 269, ../scss/screen.scss */
+/* line 279, ../scss/screen.scss */
 .clearfix:after,
 .container_12:after {
   clear: both;
@@ -274,7 +283,7 @@ footer.open {
   The following zoom:1 rule is specifically for IE6 + IE7.
   Move to separate stylesheet if invalid CSS is a problem.
 */
-/* line 279, ../scss/screen.scss */
+/* line 289, ../scss/screen.scss */
 .clearfix,
 .container_12 {
   zoom: 1;

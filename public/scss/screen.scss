@@ -121,6 +121,16 @@ section#fruktkarta {
       height: 27px;
       font-size: 0.6em;
     }
+    
+    ul.tools {
+   	    list-style: none;
+    }
+
+    ul.tools li {
+   	    float: left;
+   	    padding: right;
+    }
+    
   }
 
   footer:before {
