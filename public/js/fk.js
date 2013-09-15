@@ -19,7 +19,7 @@ function AddViewModel(options) {
     arrowSize: 10,
     backgroundClassName: 'info-bg',
     backgroundColor: '#e9e9e9',
-    minWidth: 300, maxWidth: 300,
+    minWidth: 310, maxWidth: 310,
     minHeight: 150, maxHeight: 250
   });
 
@@ -127,7 +127,7 @@ function InfoViewModel(options) {
 
   self.url          = ko.observable("");
   self.editUrl      = ko.observable("");
-  self.deleteUrl      = ko.observable("");
+  self.deleteUrl    = ko.observable("");
   self.article      = ko.observable("");
   self.description  = ko.observable("");
 

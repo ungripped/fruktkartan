@@ -57,6 +57,7 @@ section#fruktkarta {
   position: absolute;
   top: 65px; bottom: 0px;
   left: 0px; right: 0px;
+  z-index:10;
 }
 
 #fruktkarta.map_state_adding div {
@@ -69,11 +70,10 @@ section#fruktkarta {
 }
 
 /* Fruktträdsrutor */
-/*.info-bg {
-  @include background(url(//static.sasongsmat.nu/fruktkartan/images/info-bg.png) top left repeat !important );
+.info-bg {
   overflow: visible !important;
   height: 100%;
-}*/
+}
 
 .info_window {
 
@@ -83,12 +83,12 @@ section#fruktkarta {
 
   .info_view {
     h3 {
-      color: black;
       @include single-text-shadow;
 
       a {
         color: black;
         text-decoration: none;
+        font-size:1em;
       }
     }
 
@@ -113,6 +113,7 @@ section#fruktkarta {
 
     position: absolute;
     bottom: 0;
+    z-index:0;
 
     ul.tools {
         list-style: none;
@@ -151,8 +152,7 @@ section#fruktkarta {
 
   .info_view {
     form {
-
-      textarea {
+        textarea {
         margin-top: 5px;
         height: 40px;
         width: 294px;
