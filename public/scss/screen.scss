@@ -129,6 +129,9 @@ section#fruktkarta {
           line-height: 27px;
           height: 27px;
           font-size: 0.8em;
+          @media (pointer :coarse) {/*större kontroller på touchskärm o.dyl.*/
+            font-size: 1em;
+          }
         }
 
     }
