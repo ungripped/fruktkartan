@@ -1,4 +1,4 @@
 fruktkartan
 ===========
 
-fruktkartan.se
+http://fruktkartan.se
