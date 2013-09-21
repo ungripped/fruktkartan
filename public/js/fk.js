@@ -50,6 +50,12 @@ function AddViewModel(options) {
     });
 
     self.infoWindow.open(self.map, self.marker);
+    $('img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"]').each(function() {
+      $(this).attr('width', 22);
+      $(this).attr('height', 22);
+      $(this).css({width:'22px',height:'22px',top:'6px',right:'6px'});
+      $(this).attr('src','//static.sasongsmat.nu/fruktkartan/images/close.svg');
+    });
 
     $('.info-bg').parent().addClass("infowindow");
   }
@@ -163,6 +169,12 @@ function InfoViewModel(options) {
     self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.deleteUrl(obj.data.TradUrl + "?action=delete");
     self.infoWindow.open(self.map, obj.marker);
+    $('img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"]').each(function() {
+      $(this).attr('width', 22);
+      $(this).attr('height', 22);
+      $(this).css({width:'22px',height:'22px',top:'6px',right:'6px'});
+      $(this).attr('src','//static.sasongsmat.nu/fruktkartan/images/close.svg');
+    });
 
     if (self.map.getZoom() < 15) {
       self.map.setCenter(obj.marker.getPosition());
@@ -208,7 +220,7 @@ function PageViewModel(treeName) {
     self.map = new google.maps.Map($('#fruktkarta')[0], mapOptions);
   
     self.map.setCenter(stockholm);
-
+    
     var anchorPoint = new google.maps.Point(15, 45);
     var size        = new google.maps.Size(30, 45);
     var origin      = new google.maps.Point(0, 0);
