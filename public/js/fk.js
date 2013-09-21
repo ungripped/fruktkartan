@@ -50,6 +50,8 @@ function AddViewModel(options) {
     });
 
     self.infoWindow.open(self.map, self.marker);
+    /* Replace the default close button, that is too small on mobile touch screens */
+    /* TODO: This code is now duplicated. Also an ugly hack. Would be better to use a custom infowindow */
     $('img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"]').each(function() {
       $(this).attr('width', 22);
       $(this).attr('height', 22);
@@ -169,6 +171,8 @@ function InfoViewModel(options) {
     self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.deleteUrl(obj.data.TradUrl + "?action=delete");
     self.infoWindow.open(self.map, obj.marker);
+    /* Replace the default close button, that is too small on mobile touch screens */
+    /* TODO: This code is now duplicated. Also an ugly hack. Would be better to use a custom infowindow */
     $('img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"]').each(function() {
       $(this).attr('width', 22);
       $(this).attr('height', 22);
@@ -256,14 +260,7 @@ function PageViewModel(treeName) {
         var loc = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         self.map.setCenter(loc);
       });
-    } 
-    else if (google.gears) {
-      var geo = google.gears.factory.create('beta.geolocation');
-      geo.getCurrentPosition(function(position) {
-        var loc = new google.maps.LatLng(position.latitude,position.longitude);
-        self.map.setCenter(loc);
-      });
-    } 
+    }
   }
 
   self.add_tree = function(tree) {
@@ -313,6 +310,9 @@ function PageViewModel(treeName) {
   }
 
   self.addTree = function() {
+    /* First close info window (footer) if open */
+    self.showingInfo(false);
+
     self.addViewModel.open();
   }
 
