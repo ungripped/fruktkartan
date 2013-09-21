@@ -201,6 +201,7 @@ function PageViewModel(treeName) {
 
     var mapOptions = {
       zoom: 12,
+      minZoom: 3,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
