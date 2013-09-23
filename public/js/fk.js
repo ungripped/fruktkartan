@@ -1,13 +1,15 @@
-/* This file contains a modified version of Luke Mahe's infobubble2.js (CSS3 InfoBubble v0.8), 
-   and any site specific code for Fruktkartan.se */
-
+/*************************************************************************************************/
+/* This file contains a modified version of Luke Mahe's infobubble2.js (CSS3 InfoBubble v0.8),   */
+/* and any site specific code for Fruktkartan.se                                                 */
+/*                                                                                               */
+/* Can be compressed with http://jscompress.com/                                                 */
+/*                                                                                               */
+/*************************************************************************************************/
 /******************/
 /* infobubble2.js */
 /******************/
 function InfoBubble(opt_options) {
   this.extend(InfoBubble, google.maps.OverlayView);
-  this.tabs_ = [];
-  this.activeTab_ = null;
   this.baseZIndex_ = 100;
   this.isOpen_ = false;
 
@@ -175,9 +177,6 @@ InfoBubble.prototype.buildDom_ = function() {
   bubble.style['position'] = 'absolute';
   bubble.style['zIndex'] = this.baseZIndex_;
 
-  var tabsContainer = this.tabsContainer_ = document.createElement('DIV');
-  tabsContainer.style['position'] = 'relative';
-
   // Close button
   var close = this.close_ = document.createElement('IMG');
   close.style['position'] = 'absolute';
@@ -229,7 +228,6 @@ InfoBubble.prototype.buildDom_ = function() {
   // Hide the InfoBubble by default
   bubble.style['display'] = bubbleShadow.style['display'] = 'none';
 
-  bubble.appendChild(this.tabsContainer_);
   bubble.appendChild(close);
   bubble.appendChild(contentContainer);
   arrow.appendChild(arrowOuter);
@@ -277,29 +275,6 @@ InfoBubble.prototype.backgroundClassName_changed = function() {
 };
 InfoBubble.prototype['backgroundClassName_changed'] =
     InfoBubble.prototype.backgroundClassName_changed;
-
-
-/**
- * Sets the class of the tab
- *
- * @param {string} className the class name to set.
- */
-InfoBubble.prototype.setTabClassName = function(className) {
-  this.set('tabClassName', className);
-};
-InfoBubble.prototype['setTabClassName'] =
-    InfoBubble.prototype.setTabClassName;
-
-
-/**
- * tabClassName changed MVC callback
- */
-InfoBubble.prototype.tabClassName_changed = function() {
-  this.updateTabStyles_();
-};
-InfoBubble.prototype['tabClassName_changed'] =
-    InfoBubble.prototype.tabClassName_changed;
-
 
 /**
  * Gets the style of the arrow
@@ -544,7 +519,6 @@ InfoBubble.prototype.backgroundColor_changed = function() {
 
   this.arrowInner_.style['borderColor'] = backgroundColor +
       ' transparent transparent';
-  this.updateTabStyles_();
 };
 InfoBubble.prototype['backgroundColor_changed'] =
     InfoBubble.prototype.backgroundColor_changed;
@@ -572,7 +546,6 @@ InfoBubble.prototype.background_changed = function() {
 
   this.arrowInner_.style['borderColor'] = backgroundColor +
       ' transparent transparent';
-  this.updateTabStyles_();
 };
 InfoBubble.prototype['background_changed'] =
     InfoBubble.prototype.background_changed;
@@ -607,8 +580,6 @@ InfoBubble.prototype.borderColor_changed = function() {
   contentContainer.style['borderStyle'] =
       arrowOuter.style['borderStyle'] =
       this.arrowInner_.style['borderStyle'] = 'solid';
-
-  this.updateTabStyles_();
 };
 InfoBubble.prototype['borderColor_changed'] =
     InfoBubble.prototype.borderColor_changed;
@@ -650,10 +621,6 @@ InfoBubble.prototype.borderRadius_changed = function() {
       this.bubbleShadow_.style['MozBorderRadius'] =
       this.bubbleShadow_.style['webkitBorderRadius'] = this.px(borderRadius);
 
-  this.tabsContainer_.style['paddingLeft'] =
-      this.tabsContainer_.style['paddingRight'] =
-      this.px(borderRadius + borderWidth);
-
   this.redraw_();
 };
 InfoBubble.prototype['borderRadius_changed'] =
@@ -689,10 +656,8 @@ InfoBubble.prototype.borderWidth_changed = function() {
   var borderWidth = this.getBorderWidth_();
 
   this.contentContainer_.style['borderWidth'] = this.px(borderWidth);
-  this.tabsContainer_.style['top'] = this.px(borderWidth);
 
   this.updateArrowStyle_();
-  this.updateTabStyles_();
   this.borderRadius_changed();
   this.redraw_();
 };
@@ -778,7 +743,6 @@ InfoBubble.prototype.getPadding_ = function() {
 InfoBubble.prototype.padding_changed = function() {
   var padding = this.getPadding_();
   this.contentContainer_.style['padding'] = this.px(padding);
-  this.updateTabStyles_();
 
   this.redraw_();
 };
@@ -864,12 +828,6 @@ InfoBubble.prototype.draw = function() {
     return;
   }
 
-  var tabHeight = 0;
-
-  if (this.activeTab_) {
-    tabHeight = this.activeTab_.offsetHeight;
-  }
-
   var anchorHeight = this.getAnchorHeight_();
   var arrowSize = this.getArrowSize_();
   var arrowPosition = this.getArrowPosition_();
@@ -902,7 +860,7 @@ InfoBubble.prototype.draw = function() {
   switch (shadowStyle) {
     case 1:
       // Shadow is behind
-      this.bubbleShadow_.style['top'] = this.px(top + tabHeight - 1);
+      this.bubbleShadow_.style['top'] = this.px(top - 1);
       this.bubbleShadow_.style['left'] = this.px(left);
       this.bubbleShadow_.style['width'] = this.px(width);
       this.bubbleShadow_.style['height'] =
@@ -1219,143 +1177,10 @@ InfoBubble.prototype.updateContent_ = function() {
 InfoBubble.prototype.imageLoaded_ = function() {
   var pan = !this.get('disableAutoPan');
   this.redraw_();
-  if (pan && (this.tabs_.length == 0 || this.activeTab_.index == 0)) {
+  if (pan) {
     this.panToView();
   }
 };
-
-/**
- * Updates the styles of the tabs
- * @private
- */
-InfoBubble.prototype.updateTabStyles_ = function() {
-  if (this.tabs_ && this.tabs_.length) {
-    for (var i = 0, tab; tab = this.tabs_[i]; i++) {
-      this.setTabStyle_(tab.tab);
-    }
-    this.activeTab_.style['zIndex'] = this.baseZIndex_;
-    var borderWidth = this.getBorderWidth_();
-    var padding = this.getPadding_() / 2;
-    this.activeTab_.style['borderBottomWidth'] = 0;
-    this.activeTab_.style['paddingBottom'] = this.px(padding + borderWidth);
-  }
-};
-
-
-/**
- * Sets the style of a tab
- * @private
- * @param {Element} tab The tab to style.
- */
-InfoBubble.prototype.setTabStyle_ = function(tab) {
-  var backgroundColor = this.get('backgroundColor');
-  var borderColor = this.get('borderColor');
-  var borderRadius = this.getBorderRadius_();
-  var borderWidth = this.getBorderWidth_();
-  var padding = this.getPadding_();
-
-  var marginRight = this.px(-(Math.max(padding, borderRadius)));
-  var borderRadiusPx = this.px(borderRadius);
-
-  var index = this.baseZIndex_;
-  if (tab.index) {
-    index -= tab.index;
-  }
-
-  // The styles for the tab
-  var styles = {
-    'cssFloat': 'left',
-    'position': 'relative',
-    'cursor': 'pointer',
-    'backgroundColor': backgroundColor,
-    'border': this.px(borderWidth) + ' solid ' + borderColor,
-    'padding': this.px(padding / 2) + ' ' + this.px(padding),
-    'marginRight': marginRight,
-    'whiteSpace': 'nowrap',
-    'borderRadiusTopLeft': borderRadiusPx,
-    'MozBorderRadiusTopleft': borderRadiusPx,
-    'webkitBorderTopLeftRadius': borderRadiusPx,
-    'borderRadiusTopRight': borderRadiusPx,
-    'MozBorderRadiusTopright': borderRadiusPx,
-    'webkitBorderTopRightRadius': borderRadiusPx,
-    'zIndex': index,
-    'display': 'inline'
-  };
-
-  for (var style in styles) {
-    tab.style[style] = styles[style];
-  }
-
-  var className = this.get('tabClassName');
-  if (className != undefined) {
-    tab.className += ' ' + className;
-  }
-};
-
-
-/**
- * Add user actions to a tab
- * @private
- * @param {Object} tab The tab to add the actions to.
- */
-InfoBubble.prototype.addTabActions_ = function(tab) {
-  var that = this;
-  tab.listener_ = google.maps.event.addDomListener(tab, 'click', function() {
-    that.setTabActive_(this);
-  });
-};
-
-
-/**
- * Set a tab at a index to be active
- *
- * @param {number} index The index of the tab.
- */
-InfoBubble.prototype.setTabActive = function(index) {
-  var tab = this.tabs_[index - 1];
-
-  if (tab) {
-    this.setTabActive_(tab.tab);
-  }
-};
-InfoBubble.prototype['setTabActive'] = InfoBubble.prototype.setTabActive;
-
-
-/**
- * Set a tab to be active
- * @private
- * @param {Object} tab The tab to set active.
- */
-InfoBubble.prototype.setTabActive_ = function(tab) {
-  if (!tab) {
-    this.setContent('');
-    this.updateContent_();
-    return;
-  }
-
-  var padding = this.getPadding_() / 2;
-  var borderWidth = this.getBorderWidth_();
-
-  if (this.activeTab_) {
-    var activeTab = this.activeTab_;
-    activeTab.style['zIndex'] = this.baseZIndex_ - activeTab.index;
-    activeTab.style['paddingBottom'] = this.px(padding);
-    activeTab.style['borderBottomWidth'] = this.px(borderWidth);
-  }
-
-  tab.style['zIndex'] = this.baseZIndex_;
-  tab.style['borderBottomWidth'] = 0;
-  tab.style['marginBottomWidth'] = '-10px';
-  tab.style['paddingBottom'] = this.px(padding + borderWidth);
-
-  this.setContent(this.tabs_[tab.index].content);
-  this.updateContent_();
-
-  this.activeTab_ = tab;
-
-  this.redraw_();
-};
-
 
 /**
  * Set the max width of the InfoBubble
@@ -1442,114 +1267,6 @@ InfoBubble.prototype['minHeight_changed'] =
 
 
 /**
- * Add a tab
- *
- * @param {string} label The label of the tab.
- * @param {string|Element} content The content of the tab.
- */
-InfoBubble.prototype.addTab = function(label, content) {
-  var tab = document.createElement('DIV');
-  tab.innerHTML = label;
-
-  this.setTabStyle_(tab);
-  this.addTabActions_(tab);
-
-  this.tabsContainer_.appendChild(tab);
-
-  this.tabs_.push({
-    label: label,
-    content: content,
-    tab: tab
-  });
-
-  tab.index = this.tabs_.length - 1;
-  tab.style['zIndex'] = this.baseZIndex_ - tab.index;
-
-  if (!this.activeTab_) {
-    this.setTabActive_(tab);
-  }
-
-  tab.className = tab.className + ' ' + this.animationName_;
-
-  this.redraw_();
-};
-InfoBubble.prototype['addTab'] = InfoBubble.prototype.addTab;
-
-/**
- * Update a tab at a speicifc index
- *
- * @param {number} index The index of the tab.
- * @param {?string} opt_label The label to change to.
- * @param {?string} opt_content The content to update to.
- */
-InfoBubble.prototype.updateTab = function(index, opt_label, opt_content) {
-  if (!this.tabs_.length || index < 0 || index >= this.tabs_.length) {
-    return;
-  }
-
-  var tab = this.tabs_[index];
-  if (opt_label != undefined) {
-    tab.tab.innerHTML = tab.label = opt_label;
-  }
-
-  if (opt_content != undefined) {
-    tab.content = opt_content;
-  }
-
-  if (this.activeTab_ == tab.tab) {
-    this.setContent(tab.content);
-    this.updateContent_();
-  }
-  this.redraw_();
-};
-InfoBubble.prototype['updateTab'] = InfoBubble.prototype.updateTab;
-
-
-/**
- * Remove a tab at a specific index
- *
- * @param {number} index The index of the tab to remove.
- */
-InfoBubble.prototype.removeTab = function(index) {
-  if (!this.tabs_.length || index < 0 || index >= this.tabs_.length) {
-    return;
-  }
-
-  var tab = this.tabs_[index];
-  tab.tab.parentNode.removeChild(tab.tab);
-
-  google.maps.event.removeListener(tab.tab.listener_);
-
-  this.tabs_.splice(index, 1);
-
-  delete tab;
-
-  for (var i = 0, t; t = this.tabs_[i]; i++) {
-    t.tab.index = i;
-  }
-
-  if (tab.tab == this.activeTab_) {
-    // Removing the current active tab
-    if (this.tabs_[index]) {
-      // Show the tab to the right
-      this.activeTab_ = this.tabs_[index].tab;
-    } else if (this.tabs_[index - 1]) {
-      // Show a tab to the left
-      this.activeTab_ = this.tabs_[index - 1].tab;
-    } else {
-      // No tabs left to sho
-      this.activeTab_ = undefined;
-    }
-
-    this.setTabActive_(this.activeTab_);
-  }
-
-  this.redraw_();
-};
-InfoBubble.prototype['removeTab'] = InfoBubble.prototype.removeTab;
-
-
-/**
  * Get the size of an element
  * @private
  * @param {Node|string} element The element to size.
@@ -1623,7 +1340,6 @@ InfoBubble.prototype.figureOutSize_ = function() {
   var gutter = arrowSize * 2;
   var mapWidth = mapDiv.offsetWidth - gutter;
   var mapHeight = mapDiv.offsetHeight - gutter - this.getAnchorHeight_();
-  var tabHeight = 0;
   var width = /** @type {number} */ (this.get('minWidth') || 0);
   var height = /** @type {number} */ (this.get('minHeight') || 0);
   var maxWidth = /** @type {number} */ (this.get('maxWidth') || 0);
@@ -1632,52 +1348,19 @@ InfoBubble.prototype.figureOutSize_ = function() {
   maxWidth = Math.min(mapWidth, maxWidth);
   maxHeight = Math.min(mapHeight, maxHeight);
 
-  var tabWidth = 0;
-  if (this.tabs_.length) {
-    // If there are tabs then you need to check the size of each tab's content
-    for (var i = 0, tab; tab = this.tabs_[i]; i++) {
-      var tabSize = this.getElementSize_(tab.tab, maxWidth, maxHeight);
-      var contentSize = this.getElementSize_(tab.content, maxWidth, maxHeight);
+  var content = /** @type {string|Node} */ (this.get('content'));
+  if (typeof content == 'string') {
+    content = this.htmlToDocumentFragment_(content);
+  }
+  if (content) {
+    var contentSize = this.getElementSize_(content, maxWidth, maxHeight);
 
-      if (width < tabSize.width) {
-        width = tabSize.width;
-      }
-
-      // Add up all the tab widths because they might end up being wider than
-      // the content
-      tabWidth += tabSize.width;
-
-      if (height < tabSize.height) {
-        height = tabSize.height;
-      }
-
-      if (tabSize.height > tabHeight) {
-        tabHeight = tabSize.height;
-      }
-
-      if (width < contentSize.width) {
-        width = contentSize.width;
-      }
-
-      if (height < contentSize.height) {
-        height = contentSize.height;
-      }
+    if (width < contentSize.width) {
+      width = contentSize.width;
     }
-  } else {
-    var content = /** @type {string|Node} */ (this.get('content'));
-    if (typeof content == 'string') {
-      content = this.htmlToDocumentFragment_(content);
-    }
-    if (content) {
-      var contentSize = this.getElementSize_(content, maxWidth, maxHeight);
 
-      if (width < contentSize.width) {
-        width = contentSize.width;
-      }
-
-      if (height < contentSize.height) {
-        height = contentSize.height;
-      }
+    if (height < contentSize.height) {
+	  height = contentSize.height;
     }
   }
 
@@ -1689,11 +1372,7 @@ InfoBubble.prototype.figureOutSize_ = function() {
     height = Math.min(height, maxHeight);
   }
 
-  width = Math.max(width, tabWidth);
-
-  if (width == tabWidth) {
-    width = width + 2 * padding;
-  }
+  width = width + 2 * padding;
 
   arrowSize = arrowSize * 2;
   width = Math.max(width, arrowSize);
@@ -1705,12 +1384,7 @@ InfoBubble.prototype.figureOutSize_ = function() {
   }
 
   if (height > mapHeight) {
-    height = mapHeight - tabHeight;
-  }
-
-  if (this.tabsContainer_) {
-    this.tabHeight_ = tabHeight;
-    this.tabsContainer_.style['width'] = this.px(tabWidth);
+    height = mapHeight;
   }
 
   this.contentContainer_.style['width'] = this.px(width);
@@ -1754,10 +1428,6 @@ InfoBubble.prototype.positionCloseButton_ = function() {
 
   var right = 5;
   var top = 5;
-
-  if (this.tabs_.length && this.tabHeight_) {
-    top += this.tabHeight_;
-  }
 
   top += bw;
   right += bw;
@@ -2092,4 +1762,16 @@ $(document).ready(function() {
   }
   FK.page = new PageViewModel(treeName);
   ko.applyBindings(FK.page, $('#app')[0]);
+  
+  /* Geomarker, show current location on map, and updates it as the user moves along */
+  GeoMarker = new GeolocationMarker();
+  GeoMarker.setCircleOptions({fillColor: '#808080'});
+  
+/*  google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
+    map.setCenter(this.getPosition());
+    map.fitBounds(this.getBounds());
+  });*/
+
+  GeoMarker.setMap(FK.page.map);
+
 });
