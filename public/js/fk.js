@@ -1466,7 +1466,7 @@ function AddViewModel(options) {
     backgroundClassName: 'info-bg',
     backgroundColor: '#e9e9e9',
     minWidth: 310, maxWidth: 310,
-    minHeight: 150, maxHeight: 250
+    minHeight: 165, maxHeight: 270
   });
 
   google.maps.event.addListener(self.infoWindow, 'closeclick', function(event) {
@@ -1538,6 +1538,7 @@ function AddViewModel(options) {
     var tree = {
       Artikel: self.selectedFruit() != "Annan sort" ? self.selectedFruit() : self.customFruit(),
       Beskrivning: self.description().replace(/(<([^>]+)>)/ig,""),
+      BildUrl: self.BildUrl,
       pos: {
         lat: pos.lat(),
         lon: pos.lng()
@@ -1596,23 +1597,33 @@ function InfoViewModel(options) {
     backgroundClassName: 'info-bg',
     backgroundColor: '#e9e9e9',
     minWidth: 300, maxWidth: 300,
-    minHeight: 150, maxHeight: 150
+    minHeight: 165, maxHeight: 165
   });
 
   self.open = function(obj) {
     self.url(obj.data.url);
     self.article(obj.data.Artikel);
 
-
+    var desc;
     if (obj.data.Beskrivning) {
-      self.description(obj.data.Beskrivning.replace(self.urlPattern, '<a href="$1">$5</a>'));
+      desc = obj.data.Beskrivning.replace(self.urlPattern, '<a href="$1">$5</a>');
     }
     else {
-      self.description("");
+      desc = "";
     }
+    
+//console.log("BU100: "+obj.data.BildUrl100);
+//console.log("B: "+obj.data.Bild);
+
+    if (obj.data.Bild) {
+      var img = '<figure class="treephoto"><a href="http://xn--ssongsmat-v2a.nu/ssm/'+obj.data.Bild+'" target="_blank"><img src="'+obj.data.BildUrl100+'" srcset="'+obj.data.BildUrl200+' 2x, '+obj.data.BildUrl150+' 1.5x" width="100px"></a></figure>';
+      desc = img + desc;
+    }
+    self.description(desc);
 
     self.editUrl(obj.data.TradUrl + "?action=formedit");
     self.deleteUrl(obj.data.TradUrl + "?action=delete");
+
     self.infoWindow.open(self.map, obj.marker);
 
     if (self.map.getZoom() < 15) {
@@ -1755,6 +1766,7 @@ function PageViewModel(treeName) {
 }
 
 $(document).ready(function() {
+  $("html").removeClass("client-nojs");
   window.FK = {};
   var treeName = "";
   if (window.location.hash.length > 2) {

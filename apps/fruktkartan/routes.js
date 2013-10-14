@@ -56,9 +56,10 @@ var routes = function(app) {
     );
   });
 
+  /* Bild-url-100 och Bild-url-200 är fulhack. En sundare variant vore att bara  */
   function getTrees(coordinates, cb) {
     console.log("Getting trees for coordinates: " + coordinates);
-    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1500&format=json";
+    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1500&format=json";
     request(url, function(error, response, body) {
       var resultObj = JSON.parse(body);
       //console.log(body);
@@ -74,12 +75,16 @@ var routes = function(app) {
         if (tree.Artikel.length > 0) {
 
           var beskrivning = tree.Beskrivning[0] ? tree.Beskrivning[0].replace(/(<([^>]+)>)/ig,"") : "";
-
+console.log(tree["Bild-url-150"]);
+console.log(tree["Bild-url-200"]);
           return {
             Artikel: tree.Artikel[0].fulltext,
             Original: obj.fulltext,
             url: tree.Artikel[0].fullurl,
             Bild: tree.Bild.length > 0 ? tree.Bild[0].fulltext : undefined,
+            BildUrl200: tree["Bild-url-200"].length > 0 ? tree["Bild-url-200"] : undefined,
+            BildUrl150: tree["Bild-url-150"].length > 0 ? tree["Bild-url-150"] : undefined,
+            BildUrl100: tree["Bild-url-100"].length > 0 ? tree["Bild-url-100"] : undefined,
             Ikon: tree.Ikon[0],
             Ikontyp: tree.Ikontyp[0],
             Beskrivning: beskrivning,
@@ -95,7 +100,6 @@ var routes = function(app) {
 
       trees = _.filter(trees, function(tree) { return tree !== false });
       console.log("Number of trees: " + trees.length);
-
 
       cb(trees);
     });
@@ -309,6 +313,7 @@ var routes = function(app) {
             TradUrl: "http://säsongsmat.nu/ssm/" + jsonRes["edit"]["title"],
             url: tree.url,
             Bild: tree.Bild,
+            BildUrl: tree.BildUrl,
             Beskrivning: tree.Beskrivning.replace(/(<([^>]+)>)/ig,""),
             Koordinater: tree.pos
         };

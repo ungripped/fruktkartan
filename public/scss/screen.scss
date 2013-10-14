@@ -10,6 +10,8 @@ html, body {
   overflow: hidden;
 }
 
+.client-nojs .jsonly {display:none;}
+
 header.main {
   position: fixed;
   top: 0; left: 0;
@@ -104,8 +106,9 @@ section#fruktkarta {
 
     p {
       font-size: 1em;
-      height: 100px;
+      height: 115px;
       overflow: auto;
+      float:left;
     }
   }
 
@@ -149,6 +152,16 @@ section#fruktkarta {
     margin: 0 auto;
   }
   
+}
+
+figure.treephoto {
+	float:right;
+	padding-left:1.5em;
+
+	img {
+		width:100px;
+		border:4px solid white;
+	}
 }
 
 .info_window {
