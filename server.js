@@ -33,5 +33,5 @@ if ('production' == app.get('env')) {
 require('./apps/fruktkartan/routes')(app);
 
 var server = app.listen(app.settings.port, function(){
-  console.log("Express server listening on port %d in %s mode", app.listen().address().port, app.settings.env);
+  console.log("Express server listening on port %d in %s mode", server.address().port, app.settings.env);
 });
