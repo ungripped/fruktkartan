@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "4.10.1",
+    "express": "~4.10.0",
     "sass": ">= 0.0.1",
     "jade": ">= 0.0.1",
     "request": "~2.47.0",
