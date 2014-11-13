@@ -1,50 +1,53 @@
-noscript
-  | Du behöver en webbläsare med javascript för att kunna se fruktkartan. <a href="/ssm/Frukttr%C3%A4d" title="Fruktträd">Klicka här för att bläddra genom listor över alla fruktträd per ort eller kommun i stället</a>.
-div#app(class='jsonly')
-  header.main
-    h1.logo="Fruktkartan"
-    nav
-      a(href='#', title='Lägg till träd', data-bind='click: addTree').plus
-      a(href='#', title='Om fruktkartan.se', data-bind='click: toggleInfo').info 
+extends layout
 
-  section#fruktkarta
+block body
+  noscript
+    | Du behöver en webbläsare med javascript för att kunna se fruktkartan. <a href="/ssm/Frukttr%C3%A4d" title="Fruktträd">Klicka här för att bläddra genom listor över alla fruktträd per ort eller kommun i stället</a>.
+  div#app(class='jsonly')
+    header.main
+      h1.logo="Fruktkartan"
+      nav
+        a(href='#', title='Lägg till träd', data-bind='click: addTree').plus
+        a(href='#', title='Om fruktkartan.se', data-bind='click: toggleInfo').info 
 
-  footer.main(data-bind='css: {open: showingInfo}')
-    section#contact
-      h2 Kontakt
-      .mediablock.clearfix
-          .image
-            img(src='//static.sasongsmat.nu/fruktkartan/images/twitter-24.svg', alt='Twitter')
-          ul.social.content
-            li
-              a(href='http://www.twitter.com/mryhanen') @mryhanen
-            li
-              a(href='http://www.twitter.com/leo_wallentin') @leo_wallentin
-            li
-              a(href='http://www.twitter.com/sasongsmat') @sasongsmat
+    section#fruktkarta
+
+    footer.main(data-bind='css: {open: showingInfo}')
+      section#contact
+        h2 Kontakt
         .mediablock.clearfix
-          .image
-            img(src='//static.sasongsmat.nu/fruktkartan/images/facebook-24.svg', alt='Facebook')
-          ul.social.content
-            li
-              a(href='http://www.facebook.com/sasongsmat') Säsongsmat
-        .mediablock.clearfix
-          .image
-            img(src='//static.sasongsmat.nu/fruktkartan/images/email-24.svg', alt='E-post')
-          ul.social.content
-            li
-              a(href='mailto:mail@sasongsmat.nu') mail@sasongsmat.nu
+            .image
+              img(src='//static.sasongsmat.nu/fruktkartan/images/twitter-24.svg', alt='Twitter')
+            ul.social.content
+              li
+                a(href='http://www.twitter.com/mryhanen') @mryhanen
+              li
+                a(href='http://www.twitter.com/leo_wallentin') @leo_wallentin
+              li
+                a(href='http://www.twitter.com/sasongsmat') @sasongsmat
+          .mediablock.clearfix
+            .image
+              img(src='//static.sasongsmat.nu/fruktkartan/images/facebook-24.svg', alt='Facebook')
+            ul.social.content
+              li
+                a(href='http://www.facebook.com/sasongsmat') Säsongsmat
+          .mediablock.clearfix
+            .image
+              img(src='//static.sasongsmat.nu/fruktkartan/images/email-24.svg', alt='E-post')
+            ul.social.content
+              li
+                a(href='mailto:mail@sasongsmat.nu') mail@sasongsmat.nu
 
-    section#about
-      h2 Om fruktkartan.se
-      p 
-        | fruktkartan.se är en öppen databas med fruktträd. Vem som helst kan lägga till nya träd.
-        | Informationen om träden <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:Fruktkarta">sparas</a> på sajten <a href="http://xn--ssongsmat-v2a.nu/ssm/Huvudsida">säsongsmat.nu</a> och kan användas 
-        | tillsammans med artiklar och säsongsinformation om frukterna där.
-      p
-        | Andra sajter och appar kan använda information härifrån, via ett <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:API">öppet API</a>.
-      p
-        | För närvarande finns <span data-bind="text:totalTrees"></span> träd på siten.
+      section#about
+        h2 Om fruktkartan.se
+        p 
+          | fruktkartan.se är en öppen databas med fruktträd. Vem som helst kan lägga till nya träd.
+          | Informationen om träden <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:Fruktkarta">sparas</a> på sajten <a href="http://xn--ssongsmat-v2a.nu/ssm/Huvudsida">säsongsmat.nu</a> och kan användas 
+          | tillsammans med artiklar och säsongsinformation om frukterna där.
+        p
+          | Andra sajter och appar kan använda information härifrån, via ett <a href="http://xn--ssongsmat-v2a.nu/ssm/S%C3%A4songsmat:API">öppet API</a>.
+        p
+          | För närvarande finns <span data-bind="text:totalTrees"></span> träd på siten.
 
-include infowindow
-include addtreewindow
+  include infowindow
+  include addtreewindow
