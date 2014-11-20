@@ -1668,7 +1668,7 @@ function PageViewModel(treeName) {
     };
 
     self.map = new google.maps.Map($('#fruktkarta')[0], mapOptions);
-  
+
     self.map.setCenter(stockholm);
     
     var anchorPoint = new google.maps.Point(15, 45);
@@ -1682,6 +1682,8 @@ function PageViewModel(treeName) {
       "Körsbär": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-cherries.png', size, origin, anchorPoint),
       "Annan sort": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-empty.png', size, origin, anchorPoint)
     };
+
+    self.markers = [];
 
     self.set_position();
     self.load_trees();
@@ -1715,7 +1717,8 @@ function PageViewModel(treeName) {
     if (!markerImage)
       markerImage = self.markerImages["Annan sort"];
 
-    var marker = new google.maps.Marker({position: p, map: self.map, icon: markerImage});
+    var marker = new google.maps.Marker({position: p, /*map: self.map,*/ icon: markerImage});
+    self.markers.push(marker);
 
     /*
       if (treePath) {
@@ -1748,6 +1751,8 @@ function PageViewModel(treeName) {
 
         self.add_tree(tree);
       });
+
+      self.markerClusterer = new MarkerClusterer(self.map, self.markers);
     });
   }
 
