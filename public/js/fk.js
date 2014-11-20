@@ -1675,11 +1675,14 @@ function PageViewModel(treeName) {
     var size        = new google.maps.Size(30, 45);
     var origin      = new google.maps.Point(0, 0);
   
+    cherryIcon = new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-cherries.png', size, origin, anchorPoint);
     self.markerImages = {
       "Äpple": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-apple.png', size, origin, anchorPoint),
       "Päron": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-pear.png', size, origin, anchorPoint),
       "Plommon": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-plum.png', size, origin, anchorPoint),
-      "Körsbär": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-cherries.png', size, origin, anchorPoint),
+      "Körsbär": cherryIcon,
+      "Surkörsbär": cherryIcon,
+      "Bigarråer": cherryIcon,
       "Annan sort": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-empty.png', size, origin, anchorPoint)
     };
 
@@ -1752,7 +1755,13 @@ function PageViewModel(treeName) {
         self.add_tree(tree);
       });
 
-      self.markerClusterer = new MarkerClusterer(self.map, self.markers);
+      var mcOptions = {
+        gridSize: 40,
+        minimumClusterSize: 3,
+        maxZoom: 14,
+        enableRetinaIcons: true
+      };
+      self.markerClusterer = new MarkerClusterer(self.map, self.markers, mcOptions);
     });
   }
 
