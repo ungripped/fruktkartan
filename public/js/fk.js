@@ -1718,7 +1718,7 @@ function PageViewModel(treeName) {
       "Ramslök": markerFactory("örtikon, ramslök"),
       "Brännässla": markerFactory("örtikon, brännässla"),
       "Körvel": markerFactory("örtikon, körvel"),
-      "Rosenkvitten" quinceIcon,
+      "Rosenkvitten": quinceIcon,
       "Kvitten": quinceIcon,
       "Rabarber": markerFactory("trädikon, rabarber"),
       "Svart mullbär": mullberryIcon,
