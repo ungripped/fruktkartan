@@ -1685,10 +1685,10 @@ function PageViewModel(treeName) {
       }
     }
     var cherryIcon = markerFactory("trädikon, körsbär");
-    var slanIcon = markerFactory("bärikon, slånbär");
-    var mirabellIcon = markerFactory("bärikon, slånbär");
-    var gojiIcon = markerFactory("bärikon, bocktörne");
     var currantIcon = markerFactory("bärikon, vinbär");
+    var gojiIcon = markerFactory("bärikon, bocktörne");
+    var mirabellIcon = markerFactory("bärikon, slånbär");
+    var slanIcon = markerFactory("bärikon, slånbär");
     self.markerImages = {
       "Äpple": markerFactory("trädikon, äpple"),
       "Päron": markerFactory("trädikon, päron"),
@@ -1827,6 +1827,7 @@ $(document).ready(function() {
   
   /* Geomarker, show current location on map, and updates it as the user moves along */
   GeoMarker = new GeolocationMarker();
+  GeoMarker.setMinimumAccuracy(200);
   GeoMarker.setCircleOptions({fillColor: '#808080'});
   
 /*  google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
