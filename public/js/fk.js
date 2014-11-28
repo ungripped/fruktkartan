@@ -1675,15 +1675,32 @@ function PageViewModel(treeName) {
     var size        = new google.maps.Size(30, 45);
     var origin      = new google.maps.Point(0, 0);
   
-    cherryIcon = new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-cherries.png', size, origin, anchorPoint);
+    function markerFactory(icon) {
+    var iconPath = "//static.sasongsmat.nu/fruktkartan/images/markers/";
+      return {
+        url: iconPath + icon + ".svg",
+        scaledSize: new google.maps.Size(42, 36), //scaled size
+        origin: new google.maps.Point(0,0), //origin
+        anchor: new google.maps.Point(20, 56) //anchor
+      }
+    }
+    var cherryIcon = markerFactory("trädikon, körsbär");
+    var slanIcon = markerFactory("bärikon, slånbär");
+    var mirabellIcon = markerFactory("bärikon, slånbär");
     self.markerImages = {
-      "Äpple": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-apple.png', size, origin, anchorPoint),
-      "Päron": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-pear.png', size, origin, anchorPoint),
-      "Plommon": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-plum.png', size, origin, anchorPoint),
+      "Äpple": markerFactory("trädikon, äpple"),
+      "Päron": markerFactory("trädikon, päron"),
+      "Plommon": markerFactory("trädikon, plommon"),
+      "Fläder": markerFactory("bärikon, fläder"),
+      "Kvitten": markerFactory("trädikon, kvitten"),
       "Körsbär": cherryIcon,
       "Surkörsbär": cherryIcon,
       "Bigarråer": cherryIcon,
-      "Annan sort": new google.maps.MarkerImage('//static.sasongsmat.nu/fruktkartan/images/markers/marker-empty.png', size, origin, anchorPoint)
+      "Krikon": slanIcon,
+      "Slånbär": slanIcon,
+      "Körsbärsplommon": mirabellIcon,
+      "Mirabell": mirabellIcon,
+      "Annan sort": markerFactory("trädikon"),
     };
 
     self.markers = [];
@@ -1717,10 +1734,11 @@ function PageViewModel(treeName) {
   self.add_tree = function(tree) {
     var p = new google.maps.LatLng(tree.Koordinater.lat, tree.Koordinater.lon);
     var markerImage = self.markerImages[tree.Artikel];
-    if (!markerImage)
+    if (!markerImage) {
       markerImage = self.markerImages["Annan sort"];
+    }
 
-    var marker = new google.maps.Marker({position: p, /*map: self.map,*/ icon: markerImage});
+    var marker = new google.maps.Marker({position: p, map: self.map, icon: markerImage});
     self.markers.push(marker);
 
     /*
