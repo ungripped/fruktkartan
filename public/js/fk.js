@@ -1690,11 +1690,17 @@ function PageViewModel(treeName) {
     var mirabellIcon = markerFactory("bärikon, slånbär");
     var slanIcon = markerFactory("bärikon, slånbär");
     var mullberryIcon = markerFactory("bärikon, mullbär");
+    var berryIcon = markerFactory("bärikon");
+    var elderIcon = markerFactory("bärikon, fläder");
+    var quinceIcon = markerFactory("trädikon, kvitten");
+
     self.markerImages = {
       "Äpple": markerFactory("trädikon, äpple"),
       "Päron": markerFactory("trädikon, päron"),
       "Plommon": markerFactory("trädikon, plommon"),
-      "Fläder": markerFactory("bärikon, fläder"),
+      "Fläder": elderIcon,
+      "Fläderbär": elderIcon,
+      "Fläderblom": elderIcon,
       "Aroniabär": markerFactory("bärikon, aronia"),
       "Björnbär": markerFactory("bärikon, björnbär"),
       "Bocktörne": markerFactory("bärikon, bocktörne"),
@@ -1712,7 +1718,8 @@ function PageViewModel(treeName) {
       "Ramslök": markerFactory("örtikon, ramslök"),
       "Brännässla": markerFactory("örtikon, brännässla"),
       "Körvel": markerFactory("örtikon, körvel"),
-      "Kvitten": markerFactory("trädikon, kvitten"),
+      "Rosenkvitten" quinceIcon,
+      "Kvitten": quinceIcon,
       "Rabarber": markerFactory("trädikon, rabarber"),
       "Svart mullbär": mullberryIcon,
       "Mullbär": mullberryIcon,
@@ -1721,6 +1728,10 @@ function PageViewModel(treeName) {
       "Bigarråer": cherryIcon,
       "Krikon": slanIcon,
       "Slånbär": slanIcon,
+      "Krusbär": berryIcon,
+      "Jordgubbar": berryIcon,
+      "Blåbär": berryIcon,
+      "Lingon": berryIcon,
       "Körsbärsplommon": mirabellIcon,
       "Mirabell": mirabellIcon,
       "Annan sort": markerFactory("trädikon")
