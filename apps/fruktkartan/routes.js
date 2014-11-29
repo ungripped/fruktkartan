@@ -18,6 +18,12 @@ var routes = function(app) {
     });
   });
 
+  app.get('/embed', function(req, res){
+    res.render('embed', {
+      title: 'fruktkartan.se'
+    });
+  });
+
   app.get('/health', function(req, res) {
     res.send({
       pid: process.pid,
@@ -59,7 +65,7 @@ var routes = function(app) {
   /* Bild-url-100 och Bild-url-200 är fulhack. En sundare variant vore att bara  */
   function getTrees(coordinates, cb) {
     console.log("Getting trees for coordinates: " + coordinates);
-    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1800&format=json";
+    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1950&format=json";
     request(url, function(error, response, body) {
       var resultObj = JSON.parse(body);
       //console.log(body);
