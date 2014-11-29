@@ -1681,7 +1681,7 @@ function PageViewModel(treeName) {
         url: iconPath + icon + ".svg",
         scaledSize: new google.maps.Size(42, 36), //scaled size
         origin: new google.maps.Point(0,0), //origin
-        anchor: new google.maps.Point(20, 56) //anchor
+        anchor: new google.maps.Point(21, 34) //anchor
       }
     }
     var cherryIcon = markerFactory("trädikon, körsbär");
