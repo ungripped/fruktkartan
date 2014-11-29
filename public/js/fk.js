@@ -1838,17 +1838,14 @@ $(document).ready(function() {
   }
   FK.page = new PageViewModel(treeName);
   ko.applyBindings(FK.page, $('#app')[0]);
-  
-  /* Geomarker, show current location on map, and updates it as the user moves along */
-  GeoMarker = new GeolocationMarker();
-  GeoMarker.setMinimumAccuracy(200);
-  GeoMarker.setCircleOptions({fillColor: '#808080'});
-  
-/*  google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
-    map.setCenter(this.getPosition());
-    map.fitBounds(this.getBounds());
-  });*/
 
-  GeoMarker.setMap(FK.page.map);
+  if (treeName === "") {
+    /* Geomarker, show current location on map, and updates it as the user moves along.
+       Don't use geomarker if we are following a link to a tree,  */
+    GeoMarker = new GeolocationMarker();
+    GeoMarker.setMinimumAccuracy(200);
+    GeoMarker.setCircleOptions({fillColor: '#808080'});
+    GeoMarker.setMap(FK.page.map);
+  }
 
 });
