@@ -1671,17 +1671,14 @@ function PageViewModel(treeName) {
 
     self.map.setCenter(stockholm);
     
-    var anchorPoint = new google.maps.Point(15, 45);
-    var size        = new google.maps.Size(30, 45);
-    var origin      = new google.maps.Point(0, 0);
-  
+    var anchorPoint = new google.maps.Point(21, 34);
     function markerFactory(icon) {
     var iconPath = "//static.sasongsmat.nu/fruktkartan/images/markers/";
       return {
         url: iconPath + icon + ".svg",
         scaledSize: new google.maps.Size(42, 36), //scaled size
         origin: new google.maps.Point(0,0), //origin
-        anchor: new google.maps.Point(21, 34) //anchor
+        anchor: anchorPoint
       }
     }
     var cherryIcon = markerFactory("trädikon, körsbär");
