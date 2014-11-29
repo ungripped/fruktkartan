@@ -1725,6 +1725,7 @@ function PageViewModel(treeName) {
       "Bigarråer": cherryIcon,
       "Krikon": slanIcon,
       "Slånbär": slanIcon,
+      "Berberisbär": berryIcon,
       "Krusbär": berryIcon,
       "Jordgubbar": berryIcon,
       "Blåbär": berryIcon,
