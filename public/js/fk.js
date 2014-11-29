@@ -1690,11 +1690,13 @@ function PageViewModel(treeName) {
     var berryIcon = markerFactory("bärikon");
     var elderIcon = markerFactory("bärikon, fläder");
     var quinceIcon = markerFactory("trädikon, kvitten");
+    var plumIcon = markerFactory("trädikon, plommon");
 
     self.markerImages = {
       "Äpple": markerFactory("trädikon, äpple"),
       "Päron": markerFactory("trädikon, päron"),
-      "Plommon": markerFactory("trädikon, plommon"),
+      "Plommon": plumIcon,
+      "Mirabellplommon": plumIcon,
       "Fläder": elderIcon,
       "Fläderbär": elderIcon,
       "Fläderblom": elderIcon,
