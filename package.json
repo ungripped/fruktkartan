@@ -3,17 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "~4.10.0",
-    "sass": ">= 0.0.1",
-    "jade": ">= 0.0.1",
-    "request": "~2.47.0",
-    "underscore": "~1.7.0",
     "async": "~0.9.0",
-    "node-promise": "~0.5.10",
-    "ejs": "~1.0.0",
     "body-parser": "*",
-    "method-override": "*",
     "cookie-parser": "*",
-    "errorhandler": "*"
+    "ejs": "~1.0.0",
+    "errorhandler": "*",
+    "express": "~4.10.0",
+    "jade": ">= 0.0.1",
+    "method-override": "*",
+    "node-promise": "~0.5.10",
+    "nodemw": "^0.8.0",
+    "request": "~2.47.0",
+    "sass": ">= 0.0.1",
+    "underscore": "~1.7.0"
   }
 }
