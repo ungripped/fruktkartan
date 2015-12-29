@@ -3,12 +3,19 @@ var request = require('request'),
     fs      = require('fs'),
     ejs     = require('ejs'),
     cache   = require('./cache'),
+    bot     = require('nodemw'),
     _       = require('underscore');
 
 var routes = function(app) {
 
   var cachedTrees = Object.create(cache);
   var lastCached = null;
+
+  var client = new bot({
+      server: 'xn--ssongsmat-v2a.nu',
+      path: '/w',
+      debug: true
+  });
 
   var treeTemplate    = fs.readFileSync(__dirname + '/views/tree.ejs', 'utf8');
 
@@ -49,7 +56,7 @@ var routes = function(app) {
         },
       },
       function(error, request, body) {
-        
+
         var page = _.chain(body.query.pages).values().first().value();
         var info = page.imageinfo[0];
 
@@ -65,43 +72,43 @@ var routes = function(app) {
   /* Bild-url-100 och Bild-url-200 är fulhack. En sundare variant vore att bara  */
   function getTrees(coordinates, cb) {
     console.log("Getting trees for coordinates: " + coordinates);
-    var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1950&format=json";
-    request(url, function(error, response, body) {
-      var resultObj = JSON.parse(body);
-      //console.log(body);
-      //var trees = _.pluck(resultObj.query.results, "printouts");
-
-      var articles = _.pluck(trees, "Artikel");
-      var coords = _.pluck(trees, "Koordinater");
-
-
-      var trees = _.map(resultObj.query.results, function(obj, key) {
-        //console.log(arguments);
-        var tree = obj.printouts;
-        if (tree.Artikel.length > 0) {
-
-          var beskrivning = tree.Beskrivning[0] ? tree.Beskrivning[0].replace(/(<([^>]+)>)/ig,"") : "";
-console.log(tree["Bild-url-150"]);
-console.log(tree["Bild-url-200"]);
-          return {
-            Artikel: tree.Artikel[0].fulltext,
-            Original: obj.fulltext,
-            url: tree.Artikel[0].fullurl,
-            Bild: tree.Bild.length > 0 ? tree.Bild[0].fulltext : undefined,
-            BildUrl200: tree["Bild-url-200"].length > 0 ? tree["Bild-url-200"] : undefined,
-            BildUrl150: tree["Bild-url-150"].length > 0 ? tree["Bild-url-150"] : undefined,
-            BildUrl100: tree["Bild-url-100"].length > 0 ? tree["Bild-url-100"] : undefined,
-            Ikon: tree.Ikon[0],
-            Ikontyp: tree.Ikontyp[0],
-            Beskrivning: beskrivning,
-            Koordinater: tree.Koordinater[0],
-            TradUrl: obj["fullurl"],
-            TradArtikel: obj["fulltext"]
-          };
+    var params = {
+        action: 'ask',
+        query: '[[Kategori:Fruktträd]]|?Artikel|?Bild|?Bild-url-100|?Bild-url-150|?Bild-url-200|?Ikon|?Ikontyp|?Beskrivning|?Koordinater|limit=1950'
+    };
+    console.log('Fetching trees');
+    //var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1950&format=json";
+    client.api.call(params, function(err, info, next, data) {
+        if (err) {
+            console.log('ERROR: ', err);
+            return cb(null);
         }
-        else {
-          return false;
-        }
+
+        var trees = _.map(data.query.results, function(obj, key) {
+          //console.log(arguments);
+          var tree = obj.printouts;
+          if (tree.Artikel.length > 0) {
+
+            var beskrivning = tree.Beskrivning[0] ? tree.Beskrivning[0].replace(/(<([^>]+)>)/ig,"") : "";
+            return {
+              Artikel: tree.Artikel[0].fulltext,
+              Original: obj.fulltext,
+              url: tree.Artikel[0].fullurl,
+              Bild: tree.Bild.length > 0 ? tree.Bild[0].fulltext : undefined,
+              BildUrl200: tree["Bild-url-200"].length > 0 ? tree["Bild-url-200"] : undefined,
+              BildUrl150: tree["Bild-url-150"].length > 0 ? tree["Bild-url-150"] : undefined,
+              BildUrl100: tree["Bild-url-100"].length > 0 ? tree["Bild-url-100"] : undefined,
+              Ikon: tree.Ikon[0],
+              Ikontyp: tree.Ikontyp[0],
+              Beskrivning: beskrivning,
+              Koordinater: tree.Koordinater[0],
+              TradUrl: obj["fullurl"],
+              TradArtikel: obj["fulltext"]
+            };
+          }
+          else {
+              return false;
+          }
       });
 
       trees = _.filter(trees, function(tree) { return tree !== false });
@@ -140,20 +147,20 @@ console.log(tree["Bild-url-200"]);
 
   app.get('/pos/:coordinates', function(req, res) {
     console.log(req.connection.remoteAddress + " - " + (new Date()).toString() + " [" + req["headers"]["user-agent"] + ": API call: getting trees (with coordinates, from app)");
-    
+
     handlePosRequest(req, res);
   });
 
   app.get('/pos', function(req, res) {
     console.log(req.connection.remoteAddress + " - " + (new Date()).toString() + " [" + req["headers"]["user-agent"] + ": API call: getting trees");
-    
+
     handlePosRequest(req, res);
   });
 
   function uploadImage(file, name, cb) {
     fs.readFile(file.path, function (err, data) {
       if (err) cb(err, null);
-      
+
       request({
         method: 'POST',
         uri: 'http://xn--ssongsmat-v2a.nu/w/api.php',
@@ -203,7 +210,7 @@ console.log(tree["Bild-url-200"]);
             'Content-Transfer-Encoding': 'binary',
             'body': data
           },
-        ] 
+        ]
       }, function (error, response, body) {
         if(response.statusCode == 200){
           console.log('document saved!');
@@ -219,7 +226,7 @@ console.log(tree["Bild-url-200"]);
             console.log(body);
             cb("Upload failed", null);
           }
-        } 
+        }
         else {
           console.log('error: '+ response.statusCode);
           console.log(body);
@@ -239,6 +246,10 @@ console.log(tree["Bild-url-200"]);
     editTree(req, res, 'new')
   });
 
+
+
+
+
   function editTree(req, res, section) {
     console.log(req.body);
     console.log("-----------");
@@ -250,7 +261,7 @@ console.log(tree["Bild-url-200"]);
     if (req.files && _.size(req.files) == 1) {
       console.log("Got images");
       _(req.files).each(function(file, name) {
-        
+
         uploadImage(file, name, function(error, savedFile) {
           if (error == null) {
             req.body.Bild = savedFile;
@@ -285,7 +296,7 @@ console.log(tree["Bild-url-200"]);
     }
 
 
-    
+
   };
 
   function addTree(tree, cb) {
@@ -331,7 +342,7 @@ console.log(tree["Bild-url-200"]);
         console.log("Error");
         cb("Kunde inte lägga till träd.", null);
       }
-     
+
     });
   }
 };
