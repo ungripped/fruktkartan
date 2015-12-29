@@ -42,22 +42,15 @@ var routes = function(app) {
   app.get('/image/:name', function(req, res) {
     console.log('Getting image: ' + req.params.name);
 
-    request({
-        method: 'GET',
-        uri: 'http://xn--ssongsmat-v2a.nu/w/api.php',
-        json: true,
-        qs: {
-          action: 'query',
-          prop: 'imageinfo',
-          titles: req.params.name,
-          iiprop: 'url',
-          iiurlwidth: '640',
-          format: 'json'
-        },
-      },
-      function(error, request, body) {
-
-        var page = _.chain(body.query.pages).values().first().value();
+    var params = {
+      action: 'query',
+      prop: 'imageinfo',
+      titles: req.params.name,
+      iiprop: 'url',
+      iiurlwidth: '640'
+    };
+    client.api.call(params, function(err, info, data) {
+        var page = _.chain(data.query.pages).values().first().value();
         var info = page.imageinfo[0];
 
         res.send({
@@ -65,8 +58,7 @@ var routes = function(app) {
           width: info.thumbwidth,
           height: info.thumbheight
         });
-      }
-    );
+    });
   });
 
   /* Bild-url-100 och Bild-url-200 är fulhack. En sundare variant vore att bara  */
