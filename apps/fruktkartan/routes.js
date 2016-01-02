@@ -254,7 +254,7 @@ var routes = function(app) {
             else {
                 console.log("Image uploaded");
                 console.log(response);
-                return cb(null, "");
+                return cb(null, response.title);
             }
         });
     });
@@ -267,7 +267,7 @@ var routes = function(app) {
 
     console.log(req.body.Artikel);
 
-    client.logIn('', '', function(err, obj) {
+    client.logIn(app.get('mw_username'), app.get('mw_password'), function(err, obj) {
         if (err != null) {
             return cb('Kunde inte logga in.', null);
         }

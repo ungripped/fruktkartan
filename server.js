@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
+var fs = require('fs');
 
 var app = express();
 
@@ -18,6 +19,11 @@ app.set('port', 3000);
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(cookieParser());
+
+var auth = JSON.parse(fs.readFileSync('auth.json', 'utf8'));
+
+app.set('mw_username', auth['mw_username']);
+app.set('mw_password', auth['mw_password']);
 
 app.use(express.static(path.join(__dirname, 'public')))
 
