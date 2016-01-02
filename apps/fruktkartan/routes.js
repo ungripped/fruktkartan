@@ -149,6 +149,7 @@ var routes = function(app) {
     handlePosRequest(req, res);
   });
 
+/*
   function uploadImage(file, name, cb) {
     fs.readFile(file.path, function (err, data) {
       if (err) cb(err, null);
@@ -228,6 +229,8 @@ var routes = function(app) {
     });
   }
 
+*/
+
   app.post('/tree', function(req, res) {
     console.log("POST tree");
     editTree(req, res, '0');
@@ -240,7 +243,22 @@ var routes = function(app) {
 
 
 
-
+  function uploadImage(file, name, cb) {
+    fs.readFile(file.path, function (err, data) {
+        if (err) cb(err, null);
+        client.upload(file.name, data, "Från fruktkartan.se.", function(err, response) {
+            if (err) {
+                console.log("Upload failed: " + err);
+                return cb(err, null);
+            }
+            else {
+                console.log("Image uploaded");
+                console.log(response);
+                return cb(null, "");
+            }
+        });
+    });
+  }
 
   function editTree(req, res, section) {
     console.log(req.body);
@@ -249,43 +267,49 @@ var routes = function(app) {
 
     console.log(req.body.Artikel);
 
-    req.body.Bild = '';
-    if (req.files && _.size(req.files) == 1) {
-      console.log("Got images");
-      _(req.files).each(function(file, name) {
-
-        uploadImage(file, name, function(error, savedFile) {
-          if (error == null) {
-            req.body.Bild = savedFile;
-            console.log("Before: ");
-            console.log(req.body);
-            addTree(req.body, function(error, tree) {
-              console.log("Tree added with image, sending reply...");
-              console.log("After: ");
-              console.log(tree);
-              if (!error) {
-                if (tree.Bild.substring(0, 4) != "Fil:")
-                  tree.Bild = "Fil:" + tree.Bild;
-                res.send(tree);
-              }
-              else
-                res.send("Kunde inte ladda upp träd");
-            });
-          }
-        });
-      });
-    }
-    else {
-      console.log("No images");
-      addTree(req.body, function(error, tree) {
-        console.log("Tree added without image, sending reply...");
-        if (!error) {
-          res.send(tree);
+    client.logIn('', '', function(err, obj) {
+        if (err != null) {
+            return cb('Kunde inte logga in.', null);
         }
-        else
-          res.send("Kunde inte ladda upp träd");
-      });
-    }
+
+        req.body.Bild = '';
+        if (req.files && _.size(req.files) == 1) {
+          console.log("Got images");
+          _(req.files).each(function(file, name) {
+
+            uploadImage(file, name, function(error, savedFile) {
+              if (error == null) {
+                req.body.Bild = savedFile;
+                console.log("Before: ");
+                console.log(req.body);
+                addTree(req.body, function(error, tree) {
+                  console.log("Tree added with image, sending reply...");
+                  console.log("After: ");
+                  console.log(tree);
+                  if (!error) {
+                    if (tree.Bild.substring(0, 4) != "Fil:")
+                      tree.Bild = "Fil:" + tree.Bild;
+                    res.send(tree);
+                  }
+                  else
+                    res.send("Kunde inte ladda upp träd");
+                });
+              }
+            });
+          });
+        }
+        else {
+          console.log("No images");
+          addTree(req.body, function(error, tree) {
+            console.log("Tree added without image, sending reply...");
+            if (!error) {
+              res.send(tree);
+            }
+            else
+              res.send("Kunde inte ladda upp träd");
+          });
+        }
+    });
 
 
 
@@ -298,28 +322,16 @@ var routes = function(app) {
     var mwEdit = ejs.render(treeTemplate, {locals: tree});
     var posStr = tree.pos.lat + "," + tree.pos.lon;
     var title = tree.Original ? tree.Original : "Fruktträd:"+posStr;
-    var editUrl = "http://xn--ssongsmat-v2a.nu/w/api.php";
 
-    editData = {
-      action: 'edit',
-      title: title,
-      summary: 'Från fruktkartan.se',
-      text: mwEdit,
-      token: '+\\',
-      format: 'json'
-    };
+    client.edit(title, mwEdit, 'Från fruktkartan.se', function(err, edit) {
+        if (err != null) {
+            return cb('Kunde inte lägga till träd.', null);
+        }
 
-    console.log("Sending request");
-    request({url: editUrl, form: editData, method: 'POST'}, function (e, r, body) {
-      console.log("Response received:");
-      console.log(body);
-      var jsonRes = JSON.parse(body);
-      if (r.statusCode == 200 && jsonRes["edit"]["result"] == "Success") {
-        console.log("Success, callback");
         var treeObject = {
             Artikel: tree.Artikel,
-            Original: jsonRes["edit"]["title"],
-            TradUrl: "http://säsongsmat.nu/ssm/" + jsonRes["edit"]["title"],
+            Original: edit["title"],
+            TradUrl: "http://säsongsmat.nu/ssm/" + edit["title"],
             url: tree.url,
             Bild: tree.Bild,
             BildUrl: tree.BildUrl,
@@ -329,12 +341,6 @@ var routes = function(app) {
 
         cachedTrees.set(treeObject.Original, treeObject);
         cb(null, treeObject);
-      }
-      else {
-        console.log("Error");
-        cb("Kunde inte lägga till träd.", null);
-      }
-
     });
   }
 };
