@@ -66,7 +66,7 @@ var routes = function(app) {
     console.log("Getting trees for coordinates: " + coordinates);
     var params = {
         action: 'ask',
-        query: '[[Kategori:Fruktträd]]|?Artikel|?Bild|?Bild-url-100|?Bild-url-150|?Bild-url-200|?Ikon|?Ikontyp|?Beskrivning|?Koordinater|limit=1950'
+        query: '[[Kategori:Fruktträd]]|?Artikel|?Bild|?Bild-url-100|?Bild-url-150|?Bild-url-200|?Ikon|?Ikontyp|?Beskrivning|?Koordinater|limit=2950'
     };
     console.log('Fetching trees');
     //var url = "http://säsongsmat.nu/w/api.php?action=ask&query=[[Kategori%3AFrukttr%C3%A4d]]|%3FArtikel|%3FBild|%3FBild-url-100|%3FBild-url-150|%3FBild-url-200|%3FIkon|%3FIkontyp|%3FBeskrivning|%3FKoordinater|limit%3D1950&format=json";
